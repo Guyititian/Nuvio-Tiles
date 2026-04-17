@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Browse Media Tiles</title>
+  <style>
+    body { background:#111; color:white; font-family:Arial; padding:20px; }
+    h2 { margin-top:30px; }
+    input { width:100%; padding:10px; margin-bottom:20px; }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,160px);
+      gap:12px;
+    }
+
+    .tile {
+      background:#222;
+      padding:10px;
+      border-radius:10px;
+      text-align:center;
+    }
+
+    img {
+      width:100%;
+      border-radius:8px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Browse Media Tiles</h1>
+
+<input id="search" placeholder="Search tiles..." />
+
+<div id="app">Loading...</div>
+
+<script src="assets.js"></script>
+
+<script>
+let allItems = [];
+
+function copy(text) {
+  navigator.clipboard.writeText(text);
+  alert("Copied: " + text);
+}
+
+async function loadAll() {
+  const app = document.getElementById("app");
+
+  for (const cat of categories) {
+    const items = await fetchCategory(cat);
+    allItems = allItems.concat(items);
+
+    const section = document.createElement("div");
+    const title = document.createElement("h2");
+    title.textContent = cat.toUpperCase();
+
+    const grid = document.createElement("div");
+    grid.className = "grid";
+
+    items.forEach(item => {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+
+      tile.innerHTML = `
+        <img src="${item.url}" onclick="copy('${item.url}')" />
+        <div>${item.name}</div>
+      `;
+
+      grid.appendChild(tile);
+    });
+
+    section.appendChild(title);
+    section.appendChild(grid);
+    app.appendChild(section);
+  }
+}
+
+document.getElementById("search").addEventListener("input", (e) => {
+  const q = e.target.value.toLowerCase();
+
+  document.querySelectorAll(".tile").forEach(tile => {
+    const text = tile.innerText.toLowerCase();
+    tile.style.display = text.includes(q) ? "block" : "none";
+  });
+});
+
+loadAll();
+</script>
+
+</body>
+</html>
