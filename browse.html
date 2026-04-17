@@ -26,7 +26,6 @@ body {
   margin: 0;
   font-size: 18px;
   cursor: pointer;
-  display: inline-block;
 }
 
 #contextTitle {
@@ -50,7 +49,6 @@ body {
   cursor:pointer;
   font-size:14px;
   opacity:0.8;
-  user-select:none;
 }
 
 .tab.active {
@@ -68,17 +66,19 @@ input {
   border:none;
 }
 
-/* GROUPS */
+/* SECTIONS */
 section {
-  margin-bottom:30px;
+  margin-bottom:40px;
+  padding-bottom:10px;
+  border-bottom:1px solid #1c1c1c;
 }
 
 h2 {
   margin:20px 0 10px;
   font-size:16px;
   opacity:0.85;
-  border-left: 3px solid #333;
-  padding-left: 8px;
+  border-left:3px solid #333;
+  padding-left:8px;
 }
 
 /* GRID */
@@ -113,20 +113,21 @@ button {
   cursor:pointer;
 }
 
-/* TOAST */
+/* TOAST (UPGRADED) */
 #toast {
   position: fixed;
-  bottom: 20px;
+  bottom: 24px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(10px);
   background: white;
   color: black;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
   opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events:none;
+  transition: all 0.25s ease;
+  pointer-events: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 </style>
 </head>
@@ -155,20 +156,23 @@ let currentCategory = "all";
 const params = new URLSearchParams(window.location.search);
 currentCategory = params.get("category") || "all";
 
-/* COPY */
+/* COPY + TOAST */
 function copy(text) {
   navigator.clipboard.writeText(text);
-  showToast("Copied link");
+  showToast("Copied ✓");
 }
 
 function showToast(msg) {
   const toast = document.getElementById("toast");
   toast.textContent = msg;
+
   toast.style.opacity = "1";
+  toast.style.transform = "translateX(-50%) translateY(0px)";
 
   setTimeout(() => {
     toast.style.opacity = "0";
-  }, 900);
+    toast.style.transform = "translateX(-50%) translateY(10px)";
+  }, 1100);
 }
 
 /* HOME BUTTON */
@@ -236,7 +240,7 @@ function updateTabs() {
   });
 }
 
-/* LOAD GROUPED DATA */
+/* LOAD DATA WITH COUNTS */
 async function loadData() {
   const app = document.getElementById("app");
   app.innerHTML = "Loading...";
@@ -256,7 +260,7 @@ async function loadData() {
       const section = document.createElement("section");
 
       const title = document.createElement("h2");
-      title.textContent = cat.replace(/-/g, " ");
+      title.textContent = `${cat.replace(/-/g, " ")} (${items.length})`;
 
       const grid = document.createElement("div");
       grid.className = "grid";
@@ -317,7 +321,7 @@ document.getElementById("search").addEventListener("input", (e) => {
   app.appendChild(grid);
 });
 
-/* BACK BUTTON SUPPORT */
+/* BACK BUTTON */
 window.addEventListener("popstate", () => {
   const params = new URLSearchParams(window.location.search);
   currentCategory = params.get("category") || "all";
