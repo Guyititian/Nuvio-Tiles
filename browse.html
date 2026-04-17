@@ -1,39 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Browse Media Tiles</title>
+
   <style>
-    body { background:#111; color:white; font-family:Arial; padding:20px; }
-    h2 { margin-top:30px; }
-    input { width:100%; padding:10px; margin-bottom:20px; }
+    body {
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 15px 0 25px;
+      border-radius: 6px;
+      border: none;
+    }
 
     .grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fill,160px);
-      gap:12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
     }
 
     .tile {
-      background:#222;
-      padding:10px;
-      border-radius:10px;
-      text-align:center;
+      background: #222;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
     }
 
-    img {
-      width:100%;
-      border-radius:8px;
-      cursor:pointer;
+    .tile img {
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      display: block;
+    }
+
+    button {
+      margin-top: 6px;
+      width: 100%;
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    /* Loader */
+    #loader {
+      text-align: center;
+      margin-top: 60px;
+    }
+
+    .spinner {
+      width: 45px;
+      height: 45px;
+      border: 4px solid #333;
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
+
 <body>
 
 <h1>Browse Media Tiles</h1>
 
 <input id="search" placeholder="Search tiles..." />
 
-<div id="app">Loading...</div>
+<div id="app"></div>
 
 <script src="assets.js"></script>
 
@@ -45,39 +99,68 @@ function copy(text) {
   alert("Copied: " + text);
 }
 
-async function loadAll() {
-  const app = document.getElementById("app");
+function renderCategory(category, items) {
+  const section = document.createElement("div");
 
-  for (const cat of categories) {
-    const items = await fetchCategory(cat);
-    allItems = allItems.concat(items);
+  const title = document.createElement("h2");
+  title.textContent = category;
 
-    const section = document.createElement("div");
-    const title = document.createElement("h2");
-    title.textContent = cat.toUpperCase();
+  const grid = document.createElement("div");
+  grid.className = "grid";
 
-    const grid = document.createElement("div");
-    grid.className = "grid";
+  items.forEach(item => {
+    const tile = document.createElement("div");
+    tile.className = "tile";
 
-    items.forEach(item => {
-      const tile = document.createElement("div");
-      tile.className = "tile";
+    tile.innerHTML = `
+      <img src="${item.url}" onclick="copy('${item.url}')" />
+      <div>${item.name}</div>
+      <button onclick="copy('${item.url}')">Copy Link</button>
+    `;
 
-      tile.innerHTML = `
-        <img src="${item.url}" onclick="copy('${item.url}')" />
-        <div>${item.name}</div>
-      `;
+    grid.appendChild(tile);
+  });
 
-      grid.appendChild(tile);
-    });
+  section.appendChild(title);
+  section.appendChild(grid);
 
-    section.appendChild(title);
-    section.appendChild(grid);
-    app.appendChild(section);
-  }
+  return section;
 }
 
-document.getElementById("search").addEventListener("input", (e) => {
+async function load() {
+  const app = document.getElementById("app");
+
+  app.innerHTML = `
+    <div id="loader">
+      <div class="spinner"></div>
+      <p>Loading media tiles...</p>
+    </div>
+  `;
+
+  allItems = [];
+
+  for (const category of categories) {
+    try {
+      const items = await fetchCategory(category);
+      allItems = allItems.concat(items);
+
+      const section = renderCategory(category, items);
+      app.appendChild(section);
+
+    } catch (err) {
+      console.error("Error loading:", category, err);
+    }
+  }
+
+  // Remove loader AFTER everything loads
+  const loader = document.getElementById("loader");
+  if (loader) loader.remove();
+}
+
+// SEARCH
+document.addEventListener("input", (e) => {
+  if (e.target.id !== "search") return;
+
   const q = e.target.value.toLowerCase();
 
   document.querySelectorAll(".tile").forEach(tile => {
@@ -86,7 +169,7 @@ document.getElementById("search").addEventListener("input", (e) => {
   });
 });
 
-loadAll();
+load();
 </script>
 
 </body>
