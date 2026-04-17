@@ -8,10 +8,8 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      color: white;
-
-      /* upgraded background */
       background: radial-gradient(circle at top, #1a1a1a 0%, #0b0b0b 60%, #000 100%);
+      color: white;
     }
 
     .container {
@@ -24,7 +22,6 @@
     h1 {
       font-size: 46px;
       margin-bottom: 10px;
-      letter-spacing: 1px;
     }
 
     p {
@@ -48,32 +45,29 @@
 
     .cta:hover {
       transform: translateY(-2px);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 18px;
-      margin-top: 20px;
+      margin-top: 30px;
+      text-align: left;
     }
 
     .card {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 20px;
+      padding: 18px;
       border-radius: 14px;
-      text-align: left;
-
+      transition: 0.2s ease;
       backdrop-filter: blur(8px);
-      transition: 0.25s ease;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
 
     .card:hover {
       transform: translateY(-4px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
       background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .card h3 {
@@ -108,7 +102,8 @@
   <h1>Media Tiles</h1>
   <p>A structured visual library for franchises, genres, decades, and collections.</p>
 
-  <a class="cta" href="browse.html">Enter Library</a>
+  <!-- ALL CONTENT ENTRY -->
+  <a class="cta" href="browse.html">Enter Full Library</a>
 
   <div id="grid" class="grid"></div>
 
@@ -121,24 +116,40 @@
 <script src="assets.js"></script>
 
 <script>
-function prettyName(name) {
+function pretty(name) {
   return name.replace(/-/g, " ");
 }
 
-function renderCategories() {
+function render() {
   const grid = document.getElementById("grid");
 
-  categories.forEach(cat => {
+  // ALL VIEW
+  const all = {
+    label: "All Content",
+    desc: "Browse everything across all categories.",
+    link: "browse.html"
+  };
+
+  const items = [
+    all,
+    ...categories.map(c => ({
+      label: c,
+      desc: `Browse ${pretty(c)} collection.`,
+      link: `browse.html?category=${c}`
+    }))
+  ];
+
+  items.forEach(item => {
     const a = document.createElement("a");
-    a.href = "browse.html";
+    a.href = item.link;
     a.className = "card-link";
 
     const card = document.createElement("div");
     card.className = "card";
 
     card.innerHTML = `
-      <h3>${prettyName(cat)}</h3>
-      <p>Browse ${prettyName(cat)} collection.</p>
+      <h3>${pretty(item.label)}</h3>
+      <p>${item.desc}</p>
     `;
 
     a.appendChild(card);
@@ -146,7 +157,7 @@ function renderCategories() {
   });
 }
 
-renderCategories();
+render();
 </script>
 
 </body>
