@@ -16,6 +16,10 @@
   --shadow: 0 20px 60px rgba(0,0,0,0.55);
 }
 
+* {
+  box-sizing: border-box; /* 🔥 FIX: prevents overflow issues globally */
+}
+
 body {
   margin:0;
   background: radial-gradient(1200px 800px at 50% 10%, #141b2a 0%, var(--bg) 60%);
@@ -28,7 +32,7 @@ body {
   padding: 28px;
 }
 
-/* HEADER PANEL */
+/* HEADER */
 .header {
   max-width:1100px;
   margin: 0 auto 18px auto;
@@ -39,7 +43,7 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* BRAND ROW (NOW HAS VISUAL WEIGHT) */
+/* BRAND ROW */
 .brand-row {
   display:flex;
   align-items:center;
@@ -51,7 +55,7 @@ body {
   border: 1px solid rgba(255,255,255,0.04);
 }
 
-/* BRAND = PRIMARY ANCHOR */
+/* BRAND (REMOVED DOT FOR CONSISTENCY) */
 .brand {
   font-size: 28px;
   font-weight: 850;
@@ -64,17 +68,6 @@ body {
 
 .brand span {
   color: var(--accent);
-}
-
-/* subtle anchor glow */
-.brand::after {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 18px rgba(122,162,255,0.8);
-  display: inline-block;
 }
 
 /* ECOSYSTEM NAV */
@@ -106,9 +99,10 @@ body {
   color: var(--text);
 }
 
-/* SEARCH */
+/* SEARCH (FIXED CONTAINMENT) */
 input {
   width:100%;
+  display:block;            /* 🔥 ensures no inline overflow weirdness */
   padding:12px 14px;
   border-radius:12px;
   border:1px solid var(--border);
@@ -160,7 +154,7 @@ input {
   gap:14px;
 }
 
-/* TILE (WINDOW STYLE - CLEAN DEPTH) */
+/* TILE */
 .tile {
   background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
   border: 1px solid var(--border);
@@ -270,7 +264,7 @@ function copy(text) {
   setTimeout(()=>t.style.opacity=0, 900);
 }
 
-/* BRAND HOME */
+/* BRAND */
 document.getElementById("brand").onclick = () => {
   window.location.href = "index.html";
 };
@@ -307,7 +301,7 @@ function buildTabs() {
   });
 }
 
-/* FAST LOAD */
+/* LOAD */
 async function load() {
   const app = document.getElementById("app");
   app.innerHTML = "";
