@@ -2,216 +2,217 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Browse Media Tiles</title>
+<title>Media Tiles Library</title>
 
 <style>
+:root {
+  --bg: #0b0f14;
+  --panel: #121823;
+  --panel-2: #0f141d;
+  --text: #e8eef7;
+  --muted: rgba(232, 238, 247, 0.6);
+  --accent: #7aa2ff;
+  --border: rgba(255,255,255,0.06);
+  --shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+
 body {
-  background:#111;
-  color:white;
-  font-family:Arial;
-  margin:20px;
+  margin:0;
+  background: radial-gradient(1200px 800px at 50% 10%, #141b2a 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Arial;
 }
 
-/* =========================
-   HEADER (UNCHANGED STYLE)
-========================= */
+/* LAYOUT */
+.page {
+  padding: 28px;
+}
+
+/* HEADER */
 .header {
-  position: sticky;
-  top: 0;
-  background: #111;
-  padding: 10px 0;
-  z-index: 20;
-  border-bottom: 1px solid #222;
+  max-width:1100px;
+  margin: 0 auto 18px auto;
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px 22px;
+  box-shadow: var(--shadow);
 }
 
-#brand {
-  margin: 0;
-  font-size: 18px;
-  cursor: pointer;
+/* BRAND ROW */
+.brand-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 10px;
 }
 
-#contextTitle {
-  font-size: 12px;
-  opacity: 0.6;
-  margin-top: 4px;
+.brand {
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
 }
 
-/* =========================
-   TABS (KEEP ORIGINAL STYLE)
-========================= */
+.brand span {
+  color: var(--accent);
+}
+
+.context {
+  font-size:12px;
+  color: var(--muted);
+}
+
+/* SEARCH = PRIMARY SURFACE */
+input {
+  width:100%;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  outline:none;
+  margin-top:10px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
+}
+
+/* TABS */
 .tabs {
   display:flex;
   gap:10px;
   flex-wrap:wrap;
-  margin-top:10px;
+  margin-top:12px;
 }
 
 .tab {
   padding:8px 12px;
-  background:#222;
-  border-radius:8px;
+  border-radius:10px;
+  font-size:13px;
   cursor:pointer;
-  font-size:14px;
-  opacity:0.8;
+  background: rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  color: var(--muted);
+  transition: 0.2s;
+}
+
+.tab:hover {
+  transform: translateY(-2px);
 }
 
 .tab.active {
-  background:white;
-  color:black;
-  opacity:1;
+  background: rgba(122,162,255,0.15);
+  border-color: rgba(122,162,255,0.35);
+  color: var(--text);
+  box-shadow: 0 10px 30px rgba(122,162,255,0.08);
 }
 
-/* =========================
-   SEARCH (KEEP ORIGINAL + GOOD DEPTH YOU LIKED)
-========================= */
-input {
-  width:100%;
-  padding:10px;
-  margin:10px 0 15px;
-
-  border-radius:6px;
-  border:none;
-
-  background:#1a1a1a;
-  color:white;
-
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.08);
+/* CONTENT */
+#app {
+  max-width:1100px;
+  margin: 0 auto;
 }
 
-input:focus {
-  outline:none;
-  box-shadow: 0 0 0 1px rgba(120,140,255,0.4), 0 0 14px rgba(120,140,255,0.15);
-}
-
-/* =========================
-   LAYOUT
-========================= */
+/* SECTION SPACING FIX */
 section {
-  margin-bottom:40px;
-  padding-bottom:10px;
-  border-bottom:1px solid #1c1c1c;
+  margin-top: 26px;
 }
 
+/* SECTION TITLE */
 h2 {
-  margin:20px 0 10px;
-  font-size:16px;
-  opacity:0.85;
-  border-left:3px solid #333;
-  padding-left:8px;
+  font-size:14px;
+  font-weight:600;
+  margin: 18px 0 12px;
+  color: var(--muted);
 }
 
-/* GRID (unchanged density) */
+/* GRID (LESS CRAMPED) */
 .grid {
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-  gap:12px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap:14px;
 }
 
-/* =========================
-   🔧 TILE SYSTEM FIX ONLY
-   (no theme changes, just hierarchy repair)
-========================= */
+/* TILE (MORE DEPTH + SCALE) */
 .tile {
-  background:#222;
-  padding:10px;
-  border-radius:10px;
-
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow:hidden;
   display:flex;
   flex-direction:column;
-
-  height:100%;
-
-  transition:0.15s;
-
-  /* restores depth without changing aesthetic */
-  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
 .tile:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.55);
-  border-color: rgba(120,140,255,0.25);
+  transform: translateY(-6px);
+  border-color: rgba(122,162,255,0.25);
+  box-shadow: 0 18px 55px rgba(0,0,0,0.55);
 }
 
-/* IMAGE = clean window, no fake effects */
+/* IMAGE */
 .tile img {
   width:100%;
   aspect-ratio:16/9;
   object-fit:cover;
-  border-radius:8px;
-  display:block;
-
-  border: 1px solid rgba(255,255,255,0.06);
+  cursor:pointer;
 }
 
-/* TITLE */
+/* TEXT */
 .tile-title {
-  margin-top:8px;
-  font-size:14px;
-  opacity:0.85;
-
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
+  padding:10px 10px 0 10px;
+  font-size:13px;
+  line-height:1.3;
 }
 
 /* BUTTON */
 .tile button {
-  margin-top:auto;
-  width:100%;
-  padding:6px;
-
-  border-radius:6px;
-  border:none;
-
-  background:#2a2a2a;
-  color:white;
-
+  margin:10px;
+  padding:8px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
   cursor:pointer;
 }
 
-.tile button:hover {
-  background: rgba(120,140,255,0.2);
-}
-
-/* =========================
-   TOAST (UNCHANGED)
-========================= */
+/* TOAST */
 #toast {
   position: fixed;
-  bottom: 24px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-
-  background: white;
-  color: black;
-
-  padding: 12px 16px;
-  border-radius: 10px;
-  font-size: 14px;
-
-  opacity: 0;
-  transition: all 0.25s ease;
-
-  pointer-events: none;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  background: #fff;
+  color:#000;
+  padding:10px 14px;
+  border-radius:10px;
+  opacity:0;
+  transition:0.2s;
+  pointer-events:none;
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <h1 id="brand">Media Tiles</h1>
-  <div id="contextTitle"></div>
-  <div class="tabs" id="tabs"></div>
+<div class="page">
+
+  <div class="header">
+
+    <div class="brand-row">
+      <div class="brand" id="brand"><span>Media</span> Tiles</div>
+      <div class="context" id="contextTitle"></div>
+    </div>
+
+    <input id="search" placeholder="Search library..." />
+
+    <div class="tabs" id="tabs"></div>
+
+  </div>
+
+  <div id="app">Loading...</div>
+
 </div>
-
-<input id="search" placeholder="Search tiles..." />
-
-<div id="app">Loading...</div>
 
 <div id="toast">Copied</div>
 
@@ -227,33 +228,22 @@ currentCategory = params.get("category") || "all";
 /* COPY */
 function copy(text) {
   navigator.clipboard.writeText(text);
-  showToast("Copied ✓");
+  const t = document.getElementById("toast");
+  t.style.opacity = 1;
+  setTimeout(()=>t.style.opacity=0, 900);
 }
 
-function showToast(msg) {
-  const toast = document.getElementById("toast");
-  toast.textContent = msg;
-
-  toast.style.opacity = "1";
-
-  setTimeout(() => {
-    toast.style.opacity = "0";
-  }, 1100);
-}
-
-/* BRAND NAV */
+/* BRAND */
 document.getElementById("brand").onclick = () => {
   window.location.href = "index.html";
 };
 
-/* HEADER TEXT */
+/* HEADER */
 function updateHeader() {
-  const context = document.getElementById("contextTitle");
-
-  context.textContent =
-    currentCategory === "all"
-      ? "All Media Tiles"
-      : currentCategory.replace(/-/g, " ") + " collection";
+  const el = document.getElementById("contextTitle");
+  el.textContent = currentCategory === "all"
+    ? "Library"
+    : currentCategory.replace(/-/g," ") + " / Library";
 }
 
 /* TABS */
@@ -261,67 +251,57 @@ function buildTabs() {
   const tabs = document.getElementById("tabs");
   tabs.innerHTML = "";
 
-  const tabList = ["all", ...categories];
+  const list = ["all", ...categories];
 
-  tabList.forEach(cat => {
-    const div = document.createElement("div");
-    div.className = "tab";
+  list.forEach(cat => {
+    const d = document.createElement("div");
+    d.className = "tab";
+    if (cat === currentCategory) d.classList.add("active");
 
-    if (cat === currentCategory) div.classList.add("active");
+    d.textContent = cat;
 
-    div.textContent = cat.replace(/-/g, " ");
-
-    div.onclick = () => {
+    d.onclick = () => {
       currentCategory = cat;
-
-      const url = cat === "all"
-        ? "browse.html"
-        : `browse.html?category=${cat}`;
-
+      const url = cat === "all" ? "browse.html" : `browse.html?category=${cat}`;
       history.pushState({}, "", url);
-
       updateHeader();
-      loadData();
+      load();
       buildTabs();
     };
 
-    tabs.appendChild(div);
+    tabs.appendChild(d);
   });
 }
 
 /* LOAD */
-async function loadData() {
+async function load() {
   const app = document.getElementById("app");
-  app.innerHTML = "Loading...";
+  app.innerHTML = "";
 
   allItems = [];
 
-  const list = currentCategory === "all"
-    ? categories
-    : [currentCategory];
-
-  const container = document.createElement("div");
+  const list = currentCategory === "all" ? categories : [currentCategory];
 
   for (const cat of list) {
     const items = await fetchCategory(cat);
-    allItems = allItems.concat(items);
+    allItems.push(...items);
 
     const section = document.createElement("section");
 
     const title = document.createElement("h2");
-    title.textContent = `${cat.replace(/-/g, " ")} (${items.length})`;
+    title.textContent = cat;
 
     const grid = document.createElement("div");
     grid.className = "grid";
 
-    items.forEach(item => {
+    items.forEach(i => {
       const tile = document.createElement("div");
       tile.className = "tile";
 
       tile.innerHTML = `
-        <img src="${item.url}" onclick="copy('${item.url}')"/>
-        <div class="tile-title">${item.name}</div>
-        <button onclick="copy('${item.url}')">Copy Link</button>
+        <img src="${i.url}" onclick="copy('${i.url}')"/>
+        <div class="tile-title">${i.name}</div>
+        <button onclick="copy('${i.url}')">Copy</button>
       `;
 
       grid.appendChild(tile);
@@ -329,47 +309,38 @@ async function loadData() {
 
     section.appendChild(title);
     section.appendChild(grid);
-    container.appendChild(section);
+    app.appendChild(section);
   }
-
-  app.innerHTML = "";
-  app.appendChild(container);
 }
 
 /* SEARCH */
-document.getElementById("search").addEventListener("input", (e) => {
+document.getElementById("search").addEventListener("input", e => {
   const q = e.target.value.toLowerCase();
-
-  const filtered = allItems.filter(i =>
-    i.name.toLowerCase().includes(q)
-  );
-
   const app = document.getElementById("app");
   app.innerHTML = "";
+
+  const filtered = allItems.filter(i => i.name.toLowerCase().includes(q));
 
   const grid = document.createElement("div");
   grid.className = "grid";
 
-  filtered.forEach(item => {
+  filtered.forEach(i => {
     const tile = document.createElement("div");
     tile.className = "tile";
-
     tile.innerHTML = `
-      <img src="${item.url}" onclick="copy('${item.url}')"/>
-      <div class="tile-title">${item.name}</div>
-      <button onclick="copy('${item.url}')">Copy Link</button>
+      <img src="${i.url}" onclick="copy('${i.url}')"/>
+      <div class="tile-title">${i.name}</div>
+      <button onclick="copy('${i.url}')">Copy</button>
     `;
-
     grid.appendChild(tile);
   });
 
   app.appendChild(grid);
 });
 
-/* INIT */
 updateHeader();
 buildTabs();
-loadData();
+load();
 
 </script>
 
