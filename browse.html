@@ -2,174 +2,145 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Browse Media Tiles</title>
+<title>Media Tiles Library</title>
 
 <style>
 body {
-  margin:0;
-  font-family:Arial;
+  background:#0b0b0b;
   color:white;
-  background: radial-gradient(circle at top, #1a1a1a, #0b0b0b 70%);
+  font-family:Arial;
+  margin:0;
 }
 
-/* =========================
-   HEADER (LIBRARY IDENTITY)
-========================= */
+/* HEADER = LAYERED SURFACE */
 .header {
   position: sticky;
   top: 0;
-  padding:20px;
-  background: rgba(10,10,10,0.92);
-  backdrop-filter: blur(10px);
-  border-bottom:1px solid rgba(255,255,255,0.05);
+
+  padding:14px 18px;
+
+  background: rgba(10,10,10,0.8);
+  backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
-/* BRAND (MORE LOGO-LIKE) */
+/* BRAND = BIGGER + GLOW + CLICKABLE */
 #brand {
-  font-size:38px;
   margin:0;
+  font-size:20px;
   cursor:pointer;
 
-  color:white;
-  letter-spacing:2px;
+  display:inline-block;
 
   text-shadow:
-    0 0 10px rgba(255,255,255,0.2),
-    0 0 30px rgba(255,255,255,0.12);
+    0 0 20px rgba(255,255,255,0.25),
+    0 0 40px rgba(255,255,255,0.10);
 }
 
-/* CONTEXT LABEL */
+/* CONTEXT LABEL = CLEAR SECTION INDICATOR */
 #contextTitle {
-  margin-top:6px;
-  font-size:14px;
-  opacity:0.65;
+  font-size:12px;
+  opacity:0.7;
+  margin-top:4px;
 }
 
-/* =========================
-   TABS (DEPTH SYSTEM)
-========================= */
+/* TABS = NOW HAVE DEPTH + ACTIVE STATE */
 .tabs {
-  margin-top:15px;
   display:flex;
   gap:10px;
+  margin-top:12px;
   flex-wrap:wrap;
-
-  padding:10px;
-  border-radius:14px;
-
-  background: rgba(20,20,20,0.6);
-  border: 1px solid rgba(255,255,255,0.05);
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.03),
-    0 10px 25px rgba(0,0,0,0.35);
 }
 
+/* INACTIVE TAB */
 .tab {
   padding:9px 14px;
   border-radius:10px;
-  cursor:pointer;
-  font-size:14px;
+  font-size:13px;
 
-  background:#1a1a1a;
-  transition: all 0.2s ease;
-}
-
-/* HOVER LIFT */
-.tab:hover {
-  transform: translateY(-2px);
-  background:#222;
-}
-
-/* ACTIVE TAB (FOCUS GLOW) */
-.tab.active {
-  background:#2a2a2a;
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.18),
-    0 0 18px rgba(255,255,255,0.18);
-}
-
-/* =========================
-   SEARCH (RESTORED FOCUS CORE)
-========================= */
-.searchWrap {
-  margin:20px;
-  padding:12px;
-  border-radius:14px;
-
-  background: rgba(20,20,20,0.85);
+  background: rgba(255,255,255,0.05);
   border:1px solid rgba(255,255,255,0.06);
 
+  cursor:pointer;
+
+  transition: all 0.2s ease;
+
+  opacity:0.7;
+}
+
+/* HOVER */
+.tab:hover {
+  transform: translateY(-2px);
+  opacity:1;
+}
+
+/* ACTIVE TAB = LIFTED + GLOW */
+.tab.active {
+  background: rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.2);
+
   box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.03),
-    0 12px 30px rgba(0,0,0,0.45);
+    0 0 20px rgba(255,255,255,0.08);
 
-  backdrop-filter: blur(10px);
+  opacity:1;
 }
 
+/* SEARCH = NOW A FOCAL OBJECT */
 input {
-  width:100%;
-  padding:14px;
+  width:calc(100% - 40px);
+  margin:14px 20px;
+
+  padding:12px 14px;
+
   border-radius:10px;
-  border:none;
-  background:transparent;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  background: rgba(255,255,255,0.05);
+
   color:white;
-  font-size:14px;
+
   outline:none;
+
+  box-shadow:
+    inset 0 0 10px rgba(0,0,0,0.4);
 }
 
-/* FOCUS GLOW */
-input:focus {
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.2);
-}
-
-/* =========================
-   SECTIONS
-========================= */
+/* SECTIONS */
 section {
-  margin:30px 20px;
+  padding:0 20px 40px;
 }
 
 h2 {
-  margin-bottom:12px;
-  font-size:18px;
-  opacity:0.9;
+  font-size:15px;
+  opacity:0.8;
+  margin:20px 0 10px;
 }
 
-/* =========================
-   GRID
-========================= */
+/* GRID */
 .grid {
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:16px;
+  gap:14px;
 }
 
-/* =========================
-   TILE (DEPTH SYSTEM)
-========================= */
+/* TILE = FLOATING OBJECT */
 .tile {
-  background:#151515;
+  background: rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px;
+
   padding:10px;
-  border-radius:14px;
-  display:flex;
-  flex-direction:column;
 
-  border:1px solid rgba(255,255,255,0.05);
+  transition:0.2s;
 
-  transition: all 0.25s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
-/* LIFT + LIGHT */
 .tile:hover {
-  transform: translateY(-6px) scale(1.02);
-
-  box-shadow:
-    0 18px 35px rgba(0,0,0,0.6),
-    0 0 18px rgba(255,255,255,0.15);
-
-  border-color: rgba(255,255,255,0.18);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.6);
 }
 
 /* IMAGE */
@@ -183,60 +154,53 @@ h2 {
 
 /* TITLE */
 .tile-title {
-  margin-top:8px;
-  font-size:14px;
-  opacity:0.9;
+  margin-top:6px;
+  font-size:13px;
+  opacity:0.85;
 }
 
 /* BUTTON */
 .tile button {
-  margin-top:auto;
-  padding:8px;
-  border:none;
+  margin-top:8px;
+  width:100%;
+  padding:6px;
   border-radius:8px;
-  background:#ffffff;
-  color:black;
+  border:none;
   cursor:pointer;
-  font-size:13px;
+
+  background: rgba(255,255,255,0.08);
+  color:white;
 }
 
-/* =========================
-   TOAST
-========================= */
+/* TOAST */
 #toast {
   position: fixed;
   bottom: 24px;
   left: 50%;
-  transform: translateX(-50%) translateY(10px);
+  transform: translateX(-50%);
   background: white;
   color: black;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 13px;
   opacity: 0;
-  transition: all 0.25s ease;
+  transition: 0.25s;
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <div class="header">
-  <h1 id="brand">MEDIA TILES</h1>
-  <div id="contextTitle">LIBRARY</div>
+  <h1 id="brand">Media Tiles</h1>
+  <div id="contextTitle"></div>
   <div class="tabs" id="tabs"></div>
 </div>
 
-<!-- SEARCH (RESTORED FOCUS CORE) -->
-<div class="searchWrap">
-  <input id="search" placeholder="Search tiles..." />
-</div>
+<input id="search" placeholder="Search tiles..." />
 
-<!-- APP -->
 <div id="app">Loading...</div>
 
-<!-- TOAST -->
 <div id="toast">Copied</div>
 
 <script src="assets.js"></script>
@@ -245,184 +209,98 @@ h2 {
 let allItems = [];
 let currentCategory = "all";
 
-/* STATE */
 const params = new URLSearchParams(window.location.search);
 currentCategory = params.get("category") || "all";
 
-/* COPY */
 function copy(text) {
   navigator.clipboard.writeText(text);
-  showToast("Copied ✓");
+  showToast("Copied");
 }
 
-/* TOAST */
 function showToast(msg) {
-  const toast = document.getElementById("toast");
-  toast.textContent = msg;
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.opacity = "1";
 
-  toast.style.opacity = "1";
-  toast.style.transform = "translateX(-50%) translateY(0px)";
-
-  setTimeout(() => {
-    toast.style.opacity = "0";
-    toast.style.transform = "translateX(-50%) translateY(10px)";
-  }, 1100);
+  setTimeout(() => t.style.opacity = "0", 900);
 }
 
-/* BRAND NAV */
 document.getElementById("brand").onclick = () => {
   window.location.href = "index.html";
 };
 
-/* HEADER */
 function updateHeader() {
-  const context = document.getElementById("contextTitle");
-
-  context.textContent =
+  document.getElementById("contextTitle").textContent =
     currentCategory === "all"
-      ? "LIBRARY • ALL COLLECTIONS"
-      : "LIBRARY • " + currentCategory.replace(/-/g, " ");
+      ? "Library Overview"
+      : currentCategory + " collection";
 }
 
-/* TABS */
 function buildTabs() {
   const tabs = document.getElementById("tabs");
   tabs.innerHTML = "";
 
-  const tabList = ["all", ...categories];
+  const list = ["all", ...categories];
 
-  tabList.forEach(cat => {
-    const div = document.createElement("div");
-    div.className = "tab";
+  list.forEach(cat => {
+    const t = document.createElement("div");
+    t.className = "tab";
 
-    if (cat === currentCategory) div.classList.add("active");
+    if (cat === currentCategory) t.classList.add("active");
 
-    div.textContent = cat.replace(/-/g, " ");
+    t.textContent = cat;
 
-    div.onclick = () => {
+    t.onclick = () => {
       currentCategory = cat;
-
-      const url = cat === "all"
-        ? "browse.html"
-        : `browse.html?category=${cat}`;
-
-      history.pushState({}, "", url);
-
+      history.pushState({}, "", cat === "all" ? "browse.html" : `browse.html?category=${cat}`);
       updateHeader();
-      loadData();
-      updateTabs();
+      load();
+      buildTabs();
     };
 
-    tabs.appendChild(div);
+    tabs.appendChild(t);
   });
 }
 
-/* ACTIVE TAB STATE */
-function updateTabs() {
-  document.querySelectorAll(".tab").forEach(tab => {
-    const label = tab.textContent.toLowerCase().replace(/ /g, "-");
-
-    if (
-      (currentCategory === "all" && tab.textContent.toLowerCase() === "all") ||
-      label === currentCategory
-    ) {
-      tab.classList.add("active");
-    } else {
-      tab.classList.remove("active");
-    }
-  });
-}
-
-/* LOAD */
-async function loadData() {
+async function load() {
   const app = document.getElementById("app");
-  app.innerHTML = "Loading...";
+  app.innerHTML = "";
 
-  const container = document.createElement("div");
-  allItems = [];
-
-  const list = currentCategory === "all"
-    ? categories
-    : [currentCategory];
+  const list = currentCategory === "all" ? categories : [currentCategory];
 
   for (const cat of list) {
     const items = await fetchCategory(cat);
-    allItems = allItems.concat(items);
 
     const section = document.createElement("section");
 
-    const title = document.createElement("h2");
-    title.textContent = `${cat.replace(/-/g, " ")} (${items.length})`;
+    const h = document.createElement("h2");
+    h.textContent = cat;
 
     const grid = document.createElement("div");
     grid.className = "grid";
 
-    items.forEach(item => {
-      const tile = document.createElement("div");
-      tile.className = "tile";
+    items.forEach(i => {
+      const d = document.createElement("div");
+      d.className = "tile";
 
-      tile.innerHTML = `
-        <img src="${item.url}" onclick="copy('${item.url}')"/>
-        <div class="tile-title">${item.name}</div>
-        <button onclick="copy('${item.url}')">Copy Link</button>
+      d.innerHTML = `
+        <img src="${i.url}" onclick="copy('${i.url}')"/>
+        <div class="tile-title">${i.name}</div>
+        <button onclick="copy('${i.url}')">Copy</button>
       `;
 
-      grid.appendChild(tile);
+      grid.appendChild(d);
     });
 
-    section.appendChild(title);
+    section.appendChild(h);
     section.appendChild(grid);
-    container.appendChild(section);
+    app.appendChild(section);
   }
-
-  app.innerHTML = "";
-  app.appendChild(container);
 }
 
-/* SEARCH */
-document.getElementById("search").addEventListener("input", (e) => {
-  const q = e.target.value.toLowerCase();
-
-  const filtered = allItems.filter(i =>
-    i.name.toLowerCase().includes(q)
-  );
-
-  const app = document.getElementById("app");
-  app.innerHTML = "";
-
-  const grid = document.createElement("div");
-  grid.className = "grid";
-
-  filtered.forEach(item => {
-    const tile = document.createElement("div");
-    tile.className = "tile";
-
-    tile.innerHTML = `
-      <img src="${item.url}" onclick="copy('${item.url}')"/>
-      <div class="tile-title">${item.name}</div>
-      <button onclick="copy('${item.url}')">Copy Link</button>
-    `;
-
-    grid.appendChild(tile);
-  });
-
-  app.appendChild(grid);
-});
-
-/* BACK */
-window.addEventListener("popstate", () => {
-  const params = new URLSearchParams(window.location.search);
-  currentCategory = params.get("category") || "all";
-
-  updateHeader();
-  loadData();
-  updateTabs();
-});
-
-/* INIT */
 updateHeader();
 buildTabs();
-loadData();
+load();
 </script>
 
 </body>
