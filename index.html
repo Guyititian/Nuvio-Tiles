@@ -7,48 +7,57 @@
 <style>
 body {
   margin:0;
-  background: radial-gradient(circle at top, #1a1a1a, #0b0b0b 70%);
+  background: radial-gradient(circle at center, #1a1a1a, #0b0b0b 70%);
   color:white;
   font-family:Arial;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
 
-/* CONTAINER */
+/* MAIN WRAPPER */
 .container {
-  max-width:1100px;
-  margin:60px auto;
-  padding:20px;
+  text-align:center;
+  max-width:900px;
+  padding:40px;
 }
 
-/* BRAND */
+/* BRAND (BIG FOCAL POINT) */
 h1 {
-  font-size:64px;
+  font-size:72px;
   margin-bottom:10px;
-  letter-spacing:2px;
-  text-align:left;
+  letter-spacing:3px;
 
   color:white;
   text-shadow:
-    0 0 10px rgba(255,255,255,0.2),
-    0 0 30px rgba(255,255,255,0.15);
+    0 0 12px rgba(255,255,255,0.25),
+    0 0 40px rgba(255,255,255,0.12);
 }
 
+/* DESCRIPTION */
 .sub {
-  opacity:0.6;
+  opacity:0.65;
   margin-bottom:40px;
   font-size:16px;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
+  line-height:1.5;
 }
 
-/* CARDS */
+/* FEATURE CARDS */
 .cards {
   display:flex;
+  justify-content:center;
   gap:30px;
-  flex-wrap:wrap;
+  margin-top:20px;
 }
 
-/* CARD */
+/* BIGGER MORE “DESTINATION” STYLE */
 .card {
-  background:#151515;
-  padding:30px;
+  background:#141414;
+  padding:34px;
   border-radius:18px;
   width:320px;
   cursor:pointer;
@@ -59,35 +68,35 @@ h1 {
   transition: all 0.25s ease;
 }
 
-/* DEPTH + GLOW */
+/* DEPTH FOCUS */
 .card:hover {
-  transform:translateY(-8px) scale(1.02);
+  transform:translateY(-10px) scale(1.03);
 
   box-shadow:
-    0 20px 40px rgba(0,0,0,0.6),
-    0 0 20px rgba(255,255,255,0.15);
+    0 25px 50px rgba(0,0,0,0.6),
+    0 0 25px rgba(255,255,255,0.15);
 
   border-color: rgba(255,255,255,0.2);
 }
 
-/* TITLE */
+/* CARD TITLE */
 .card h2 {
   margin:0 0 14px 0;
-  font-size:22px;
+  font-size:24px;
 }
 
-/* TEXT */
+/* CARD TEXT */
 .card p {
   font-size:15px;
   opacity:0.75;
   line-height:1.5;
 }
 
-/* FOOTER */
+/* FOOTNOTE */
 .footer {
-  margin-top:60px;
+  margin-top:50px;
   font-size:12px;
-  opacity:0.4;
+  opacity:0.35;
 }
 </style>
 </head>
@@ -97,24 +106,29 @@ h1 {
 <div class="container">
 
   <h1>MEDIA TILES</h1>
-  <div class="sub">Ecosystem Portal</div>
+
+  <div class="sub">
+    A modular ecosystem for curated media libraries and processing tools.
+    <br><br>
+    Browse assets or transform your own media through a unified system.
+  </div>
 
   <div class="cards">
 
     <div class="card" onclick="window.location.href='./browse.html'">
       <h2>📚 Library</h2>
-      <p>Browse curated media tiles and copy direct asset links.</p>
+      <p>Explore curated collections of media tiles with instant copy links.</p>
     </div>
 
     <div class="card" onclick="window.location.href='https://guyititian.github.io/media-lab/'">
       <h2>🛠 Tools</h2>
-      <p>Bring your own media, process it, and generate outputs.</p>
+      <p>Upload media, process it through presets, and export results.</p>
     </div>
 
   </div>
 
   <div class="footer">
-    Media-Tiles Ecosystem • Library + Tools
+    Media Tiles Ecosystem • Library + Tools
   </div>
 
 </div>
