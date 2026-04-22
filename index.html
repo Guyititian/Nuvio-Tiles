@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Media Tiles Ecosystem</title>
+<title>Media Tiles</title>
 
 <style>
 body {
@@ -16,25 +16,20 @@ body {
   align-items:center;
 }
 
-/* PAGE WRAPPER */
+/* ROOT STACK */
 .container {
   text-align:center;
-  max-width:1000px;
 }
 
 /* =========================
-   BRAND (ANCHOR OBJECT)
+   FLOATING BRAND OBJECT
 ========================= */
-.brand-shell {
-  margin-bottom:50px;
-}
-
-.brand-core {
-  font-size:60px;
+.brand {
+  font-size:64px;
   font-weight:600;
 
-  padding:20px 40px;
-  border-radius:20px;
+  padding:26px 54px;
+  border-radius:24px;
 
   display:inline-block;
 
@@ -42,55 +37,58 @@ body {
   border:1px solid rgba(255,255,255,0.10);
 
   box-shadow:
-    0 25px 70px rgba(0,0,0,0.75),
-    0 0 50px rgba(255,255,255,0.10);
+    0 30px 90px rgba(0,0,0,0.85),
+    0 0 60px rgba(255,255,255,0.12);
 
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
 
   letter-spacing:1px;
+
+  margin-bottom:50px;
 }
 
-.brand-sub {
-  margin-top:12px;
+.sub {
   font-size:13px;
-  opacity:0.6;
+  opacity:0.55;
+  margin-top:-35px;
+  margin-bottom:50px;
 }
 
 /* =========================
-   MAIN CARDS
+   NAV CARDS (BIGGER + WEIGHTED)
 ========================= */
 .cards {
   display:flex;
   justify-content:center;
-  gap:40px;
+  gap:50px;
 }
 
 .card {
-  width:340px;
-  padding:26px;
+  width:380px;
+  padding:30px;
 
-  border-radius:18px;
+  border-radius:20px;
 
   background: rgba(255,255,255,0.04);
   border:1px solid rgba(255,255,255,0.08);
 
-  box-shadow: 0 20px 55px rgba(0,0,0,0.65);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.7);
 
   cursor:pointer;
 
-  transition:0.25s ease;
+  transition:0.25s;
 }
 
 .card:hover {
-  transform:translateY(-10px);
+  transform:translateY(-12px);
   box-shadow:
-    0 35px 90px rgba(0,0,0,0.85),
-    0 0 35px rgba(255,255,255,0.12);
+    0 40px 110px rgba(0,0,0,0.9),
+    0 0 40px rgba(255,255,255,0.12);
 }
 
 .card h2 {
-  margin:0 0 10px;
-  font-size:20px;
+  margin:0 0 12px;
+  font-size:22px;
 }
 
 .card p {
@@ -112,25 +110,20 @@ body {
 
 <div class="container">
 
-  <div class="brand-shell">
-    <div class="brand-core">Media Tiles</div>
-    <div class="brand-sub">Ecosystem Portal — Browse • Tools • Generate</div>
-  </div>
+  <div class="brand">Media Tiles</div>
+
+  <div class="sub">Ecosystem for media browsing and transformation</div>
 
   <div class="cards">
     <div class="card" onclick="window.location.href='./browse.html'">
-      <h2>📚 Library</h2>
-      <p>Curated media tiles with structured collections and asset links.</p>
+      <h2>Library</h2>
+      <p>Browse curated collections and copy media asset links.</p>
     </div>
 
     <div class="card" onclick="window.location.href='https://guyititian.github.io/media-lab/'">
-      <h2>🛠 Tools</h2>
-      <p>Upload media and process it through generation presets and pipelines.</p>
+      <h2>Tools</h2>
+      <p>Upload media and process it through motion + GIF pipelines.</p>
     </div>
-  </div>
-
-  <div class="footer">
-    Unified media ecosystem for browsing and transformation
   </div>
 
 </div>
