@@ -2,167 +2,173 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Media Tiles Ecosystem</title>
+<title>Media Tiles</title>
 
 <style>
+:root {
+  --bg: #0b0f14;
+  --panel: #121823;
+  --panel-2: #0f141d;
+  --text: #e8eef7;
+  --muted: rgba(232, 238, 247, 0.6);
+  --accent: #7aa2ff;
+  --border: rgba(255,255,255,0.06);
+  --shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+
 body {
-  margin: 0;
-  height: 100vh;
-  font-family: Arial, sans-serif;
-  color: white;
-
-  /* RESTORED GRADIENT DEPTH */
-  background: radial-gradient(circle at top, #1f1f33 0%, #0b0b10 60%, #050507 100%);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin:0;
+  background: radial-gradient(1200px 800px at 50% 20%, #141b2a 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Arial;
 }
 
-/* MAIN WRAPPER */
-.container {
-  width: 100%;
-  max-width: 950px;
-  padding: 40px;
-  text-align: center;
+/* CENTER LAYOUT */
+.wrapper {
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px;
 }
 
-/* HERO BRAND CARD (CENTER FOCUS) */
-.hero {
-  background: linear-gradient(145deg, #1c1c2a, #101018);
-  border-radius: 20px;
-
-  padding: 50px 30px;
-
-  box-shadow:
-    0 0 60px rgba(140,120,255,0.18),
-    0 30px 80px rgba(0,0,0,0.65);
-
-  margin-bottom: 28px;
-
-  position: relative;
-  overflow: hidden;
+/* MAIN CARD */
+.shell {
+  width:100%;
+  max-width:980px;
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 56px 42px;
+  box-shadow: var(--shadow);
 }
 
-/* SOFT GLOW ORB */
-.hero::before {
-  content: "";
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  background: rgba(140,120,255,0.18);
-  filter: blur(80px);
-  top: -80px;
-  left: 50%;
-  transform: translateX(-50%);
+/* BRAND BLOCK */
+.brand {
+  text-align:center;
+  margin-bottom: 40px;
 }
 
-/* BRAND TITLE */
-.title {
-  font-size: 54px;
-  font-weight: 800;
+.brand h1 {
+  font-size: 42px;
   letter-spacing: 1px;
-  position: relative;
+  margin: 0;
+  font-weight: 700;
 }
 
-/* SUBTITLE */
-.subtitle {
-  margin-top: 14px;
+.brand h1 span {
+  color: var(--accent);
+}
+
+.brand p {
+  margin-top: 10px;
   font-size: 14px;
-  opacity: 0.7;
-  position: relative;
+  color: var(--muted);
 }
 
-/* NAV CARDS ROW */
-.cards {
-  display: flex;
-  justify-content: center;
-  gap: 26px;
-  flex-wrap: wrap;
+/* FEATURE CARDS */
+.grid {
+  display:flex;
+  gap:22px;
+  justify-content:center;
+  margin-top: 30px;
+  flex-wrap:wrap;
 }
 
-/* STRONGER DEPTH CARDS */
 .card {
-  width: 320px;
-  padding: 26px;
+  width: 300px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
   border-radius: 16px;
-  cursor: pointer;
-
-  background: linear-gradient(145deg, #191919, #0f0f0f);
-
-  box-shadow:
-    0 14px 35px rgba(0,0,0,0.7),
-    inset 0 0 0 1px rgba(255,255,255,0.04);
-
-  transition: 0.25s ease;
-  text-align: left;
+  padding: 22px;
+  cursor:pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow:hidden;
 }
 
+/* DEPTH LAYER */
+.card::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background: radial-gradient(600px 200px at 30% 0%, rgba(122,162,255,0.10), transparent 60%);
+  opacity:0;
+  transition:0.25s;
+}
+
+/* HOVER ELEVATION */
 .card:hover {
   transform: translateY(-6px);
-
-  box-shadow:
-    0 25px 70px rgba(0,0,0,0.8),
-    0 0 25px rgba(140,120,255,0.25);
+  border-color: rgba(122,162,255,0.25);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.6);
 }
 
-/* CARD TITLE */
+.card:hover::before {
+  opacity:1;
+}
+
 .card h2 {
-  margin: 0 0 10px 0;
-  font-size: 18px;
+  margin:0 0 8px 0;
+  font-size:18px;
 }
 
-/* CARD TEXT */
 .card p {
-  font-size: 13px;
-  opacity: 0.75;
-  line-height: 1.5;
+  margin:0;
+  font-size:13px;
+  color: var(--muted);
+  line-height:1.5;
 }
 
 /* FOOTER */
 .footer {
-  margin-top: 32px;
-  font-size: 12px;
-  opacity: 0.4;
+  margin-top: 36px;
+  text-align:center;
+  font-size:12px;
+  color: rgba(255,255,255,0.35);
 }
+
+/* SUBTLE DIVIDER */
+.divider {
+  height:1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  margin: 30px 0;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="wrapper">
+  <div class="shell">
 
-  <!-- HERO BRAND FOCUS -->
-  <div class="hero">
-    <div class="title">Media Tiles</div>
-    <div class="subtitle">
-      A unified ecosystem for media browsing, transformation, and tool-based generation
-    </div>
-  </div>
-
-  <!-- NAVIGATION -->
-  <div class="cards">
-
-    <div class="card" onclick="window.location.href='./browse.html'">
-      <h2>📚 Library</h2>
-      <p>
-        Explore curated media tiles, organized collections, and direct asset access.
-      </p>
+    <div class="brand">
+      <h1><span>Media</span> Tiles</h1>
+      <p>Ecosystem platform for media browsing and transformation tools</p>
     </div>
 
-    <div class="card" onclick="window.location.href='https://guyititian.github.io/media-lab/'">
-      <h2>🛠 Tools</h2>
-      <p>
-        Upload media and generate processed outputs using motion and enhancement presets.
-      </p>
+    <div class="divider"></div>
+
+    <div class="grid">
+
+      <div class="card" onclick="window.location.href='./browse.html'">
+        <h2>Library</h2>
+        <p>Browse curated media tiles with structured categories and asset links.</p>
+      </div>
+
+      <div class="card" onclick="window.location.href='https://guyititian.github.io/media-lab/'">
+        <h2>Tools</h2>
+        <p>Upload media, process files, and generate enhanced outputs.</p>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      Media Tiles • Unified ecosystem for media and tools
     </div>
 
   </div>
-
-  <div class="footer">
-    Media Tiles Ecosystem • Library + Tools + Processing Pipeline
-  </div>
-
 </div>
 
 </body>
