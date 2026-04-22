@@ -7,7 +7,7 @@
 <style>
 body {
   margin:0;
-  background: radial-gradient(circle at center, #1a1a1a, #0b0b0b 70%);
+  background:#0b0b0b;
   color:white;
   font-family:Arial;
   height:100vh;
@@ -16,87 +16,98 @@ body {
   align-items:center;
 }
 
-/* MAIN WRAPPER */
+/* MAIN LAYOUT */
 .container {
   text-align:center;
   max-width:900px;
-  padding:40px;
 }
 
-/* BRAND (BIG FOCAL POINT) */
+/* 🔥 BRAND BECOMES A VISUAL OBJECT */
 h1 {
-  font-size:72px;
-  margin-bottom:10px;
-  letter-spacing:3px;
+  font-size:54px;
+  margin:0;
+  letter-spacing:1px;
 
-  color:white;
+  background: linear-gradient(90deg, #ffffff, #cfcfcf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
   text-shadow:
-    0 0 12px rgba(255,255,255,0.25),
-    0 0 40px rgba(255,255,255,0.12);
+    0 0 20px rgba(255,255,255,0.15),
+    0 0 60px rgba(255,255,255,0.08);
+
+  transform: translateY(-10px);
 }
 
-/* DESCRIPTION */
+/* SUBTITLE HAS DEPTH NOW */
 .sub {
-  opacity:0.65;
-  margin-bottom:40px;
-  font-size:16px;
-  max-width:600px;
-  margin-left:auto;
-  margin-right:auto;
-  line-height:1.5;
+  margin-top:10px;
+  font-size:14px;
+  opacity:0.7;
+  letter-spacing:0.5px;
 }
 
-/* FEATURE CARDS */
+/* CARD LAYER */
 .cards {
   display:flex;
   justify-content:center;
-  gap:30px;
-  margin-top:20px;
+  gap:28px;
+  margin-top:50px;
 }
 
-/* BIGGER MORE “DESTINATION” STYLE */
+/* BIGGER, MORE OBJECT-LIKE TILES */
 .card {
-  background:#141414;
-  padding:34px;
-  border-radius:18px;
   width:320px;
-  cursor:pointer;
-  text-align:left;
+  padding:26px;
+  border-radius:18px;
 
-  border:1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(10px);
+
+  cursor:pointer;
 
   transition: all 0.25s ease;
-}
-
-/* DEPTH FOCUS */
-.card:hover {
-  transform:translateY(-10px) scale(1.03);
 
   box-shadow:
-    0 25px 50px rgba(0,0,0,0.6),
-    0 0 25px rgba(255,255,255,0.15);
-
-  border-color: rgba(255,255,255,0.2);
+    0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* CARD TITLE */
-.card h2 {
-  margin:0 0 14px 0;
-  font-size:24px;
+/* HOVER DEPTH */
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.6),
+    0 0 25px rgba(255,255,255,0.08);
 }
 
 /* CARD TEXT */
-.card p {
-  font-size:15px;
-  opacity:0.75;
-  line-height:1.5;
+.card h2 {
+  margin:0 0 10px 0;
+  font-size:20px;
 }
 
-/* FOOTNOTE */
-.footer {
+.card p {
+  font-size:13px;
+  opacity:0.75;
+  line-height:1.4;
+}
+
+/* DESCRIPTION BLOCK UNDER CARDS */
+.description {
   margin-top:50px;
-  font-size:12px;
-  opacity:0.35;
+  font-size:13px;
+  opacity:0.5;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.footer {
+  margin-top:40px;
+  font-size:11px;
+  opacity:0.3;
 }
 </style>
 </head>
@@ -105,30 +116,29 @@ h1 {
 
 <div class="container">
 
-  <h1>MEDIA TILES</h1>
-
-  <div class="sub">
-    A modular ecosystem for curated media libraries and processing tools.
-    <br><br>
-    Browse assets or transform your own media through a unified system.
-  </div>
+  <h1>Media Tiles</h1>
+  <div class="sub">Ecosystem Portal</div>
 
   <div class="cards">
 
     <div class="card" onclick="window.location.href='./browse.html'">
       <h2>📚 Library</h2>
-      <p>Explore curated collections of media tiles with instant copy links.</p>
+      <p>Curated media collections with direct asset access and copyable links.</p>
     </div>
 
     <div class="card" onclick="window.location.href='https://guyititian.github.io/media-lab/'">
       <h2>🛠 Tools</h2>
-      <p>Upload media, process it through presets, and export results.</p>
+      <p>Upload media and generate processed outputs through the media engine.</p>
     </div>
 
   </div>
 
+  <div class="description">
+    A modular media ecosystem designed for browsing, transforming, and generating visual assets through connected tools and collections.
+  </div>
+
   <div class="footer">
-    Media Tiles Ecosystem • Library + Tools
+    Media Tiles • Library + Tools System
   </div>
 
 </div>
