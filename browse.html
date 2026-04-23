@@ -16,9 +16,7 @@
   --shadow: 0 20px 60px rgba(0,0,0,0.55);
 }
 
-* {
-  box-sizing: border-box; /* 🔥 FIX: prevents overflow issues globally */
-}
+* { box-sizing: border-box; }
 
 body {
   margin:0;
@@ -27,10 +25,7 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, Arial;
 }
 
-/* PAGE */
-.page {
-  padding: 28px;
-}
+.page { padding: 28px; }
 
 /* HEADER */
 .header {
@@ -43,7 +38,7 @@ body {
   box-shadow: var(--shadow);
 }
 
-/* BRAND ROW */
+/* BRAND */
 .brand-row {
   display:flex;
   align-items:center;
@@ -55,26 +50,19 @@ body {
   border: 1px solid rgba(255,255,255,0.04);
 }
 
-/* BRAND (REMOVED DOT FOR CONSISTENCY) */
 .brand {
-  font-size: 28px;
-  font-weight: 850;
+  font-size: 30px;
+  font-weight: 900;
   cursor: pointer;
   letter-spacing: 0.5px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
 }
 
-.brand span {
-  color: var(--accent);
-}
+.brand span { color: var(--accent); }
 
-/* ECOSYSTEM NAV */
+/* NAV */
 .ecosystem-nav {
   display:flex;
   gap:10px;
-  align-items:center;
 }
 
 .nav-btn {
@@ -85,12 +73,6 @@ body {
   background: rgba(255,255,255,0.03);
   color: var(--muted);
   cursor:pointer;
-  transition:0.2s;
-}
-
-.nav-btn:hover {
-  transform: translateY(-2px);
-  color: var(--text);
 }
 
 .nav-btn.active {
@@ -99,10 +81,10 @@ body {
   color: var(--text);
 }
 
-/* SEARCH (FIXED CONTAINMENT) */
+/* SEARCH */
 input {
   width:100%;
-  display:block;            /* 🔥 ensures no inline overflow weirdness */
+  display:block;
   padding:12px 14px;
   border-radius:12px;
   border:1px solid var(--border);
@@ -128,12 +110,10 @@ input {
   background: rgba(255,255,255,0.03);
   border:1px solid var(--border);
   color: var(--muted);
-  transition: 0.2s;
+  transition:0.2s;
 }
 
-.tab:hover {
-  transform: translateY(-2px);
-}
+.tab:hover { transform: translateY(-2px); }
 
 .tab.active {
   background: rgba(122,162,255,0.15);
@@ -141,13 +121,12 @@ input {
   color: var(--text);
 }
 
-/* CONTENT */
+/* GRID */
 #app {
   max-width:1100px;
   margin: 0 auto;
 }
 
-/* GRID */
 .grid {
   display:grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -163,16 +142,13 @@ input {
   display:flex;
   flex-direction:column;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  transition: all 0.25s ease;
 }
 
 .tile:hover {
   transform: translateY(-6px);
-  border-color: rgba(122,162,255,0.25);
   box-shadow: 0 18px 55px rgba(0,0,0,0.55);
 }
 
-/* IMAGE */
 .tile img {
   width:100%;
   aspect-ratio:16/9;
@@ -180,13 +156,11 @@ input {
   cursor:pointer;
 }
 
-/* TEXT */
 .tile-title {
-  padding:10px 10px 0 10px;
+  padding:10px;
   font-size:13px;
 }
 
-/* BUTTON */
 .tile button {
   margin:10px;
   padding:8px;
@@ -195,6 +169,24 @@ input {
   background: rgba(255,255,255,0.03);
   color: var(--text);
   cursor:pointer;
+}
+
+/* LOADING */
+.skeleton {
+  height:160px;
+  border-radius:14px;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.06),
+    rgba(255,255,255,0.03)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* TOAST */
@@ -211,7 +203,6 @@ input {
   transition:0.2s;
   pointer-events:none;
 }
-
 </style>
 </head>
 
@@ -235,12 +226,11 @@ input {
     </div>
 
     <input id="search" placeholder="Search library..." />
-
     <div class="tabs" id="tabs"></div>
 
   </div>
 
-  <div id="app">Loading...</div>
+  <div id="app"></div>
 
 </div>
 
@@ -250,11 +240,18 @@ input {
 
 <script>
 
+const owner = "Guyititian";
+const repo = "media-tiles";
+const baseURL = `https://${owner}.github.io/${repo}/`;
+const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents/collections`;
+
+const categories = [
+  "genres","franchises","decades","networks","people","studios","special"
+];
+
+let cache = {};
 let allItems = [];
 let currentCategory = "all";
-
-const params = new URLSearchParams(window.location.search);
-currentCategory = params.get("category") || "all";
 
 /* COPY */
 function copy(text) {
@@ -262,6 +259,39 @@ function copy(text) {
   const t = document.getElementById("toast");
   t.style.opacity = 1;
   setTimeout(()=>t.style.opacity=0, 900);
+}
+
+/* FETCH SAFE + CACHED */
+async function fetchCategory(category) {
+  if (cache[category]) return cache[category];
+
+  try {
+    const res = await fetch(`${apiBase}/${category}`);
+
+    if (!res.ok) {
+      console.warn("Failed:", category);
+      return [];
+    }
+
+    const data = await res.json();
+
+    const result = Array.isArray(data)
+      ? data
+          .filter(f => f.name.match(/\.(jpeg|jpg|png|webp|gif|mp4)$/i))
+          .map(f => ({
+            name: f.name.replace(/\.[^/.]+$/, ""),
+            url: `${baseURL}collections/${category}/${f.name}`,
+            category
+          }))
+      : [];
+
+    cache[category] = result;
+    return result;
+
+  } catch (e) {
+    console.warn("Error:", category, e);
+    return [];
+  }
 }
 
 /* BRAND */
@@ -274,9 +304,7 @@ function buildTabs() {
   const tabs = document.getElementById("tabs");
   tabs.innerHTML = "";
 
-  const list = ["all", ...categories];
-
-  list.forEach(cat => {
+  ["all", ...categories].forEach(cat => {
     const d = document.createElement("div");
     d.className = "tab";
 
@@ -286,13 +314,8 @@ function buildTabs() {
 
     d.onclick = () => {
       currentCategory = cat;
-
-      const url = cat === "all"
-        ? "browse.html"
-        : `browse.html?category=${cat}`;
-
+      const url = cat === "all" ? "browse.html" : `browse.html?category=${cat}`;
       history.pushState({}, "", url);
-
       load();
       buildTabs();
     };
@@ -301,7 +324,7 @@ function buildTabs() {
   });
 }
 
-/* LOAD */
+/* LOAD (PARALLEL + FAST) */
 async function load() {
   const app = document.getElementById("app");
   app.innerHTML = "";
@@ -310,9 +333,16 @@ async function load() {
     ? categories
     : [currentCategory];
 
+  // skeleton UI immediately
+  app.innerHTML = `<div class="grid">${Array(8).fill('<div class="skeleton"></div>').join('')}</div>`;
+
   const results = await Promise.all(
     list.map(cat => fetchCategory(cat))
   );
+
+  allItems = results.flat();
+
+  app.innerHTML = "";
 
   results.forEach((items, i) => {
     const cat = list[i];
@@ -348,12 +378,11 @@ async function load() {
 document.getElementById("search").addEventListener("input", e => {
   const q = e.target.value.toLowerCase();
 
-  const app = document.getElementById("app");
-  app.innerHTML = "";
-
   const filtered = allItems.filter(i =>
     i.name.toLowerCase().includes(q)
   );
+
+  const app = document.getElementById("app");
 
   const grid = document.createElement("div");
   grid.className = "grid";
@@ -361,19 +390,19 @@ document.getElementById("search").addEventListener("input", e => {
   filtered.forEach(i => {
     const tile = document.createElement("div");
     tile.className = "tile";
-
     tile.innerHTML = `
       <img src="${i.url}" onclick="copy('${i.url}')"/>
       <div class="tile-title">${i.name}</div>
       <button onclick="copy('${i.url}')">Copy Link</button>
     `;
-
     grid.appendChild(tile);
   });
 
+  app.innerHTML = "";
   app.appendChild(grid);
 });
 
+/* INIT */
 buildTabs();
 load();
 
