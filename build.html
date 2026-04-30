@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Build Details | Media Tiles</title>
+<meta charset="UTF-8">
+<title>Media Tiles Build</title>
 
 <style>
 :root {
@@ -16,105 +16,121 @@
   --shadow: 0 20px 60px rgba(0,0,0,0.55);
 }
 
+* { box-sizing: border-box; }
+
 body {
   margin:0;
-  background: radial-gradient(1200px 800px at 50% 20%, #141b2a 0%, var(--bg) 60%);
+  background: radial-gradient(1200px 800px at 50% 10%, #141b2a 0%, var(--bg) 60%);
   color: var(--text);
   font-family: system-ui, -apple-system, Segoe UI, Arial;
 }
 
-.wrapper {
-  min-height:100vh;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  padding:40px;
-}
+.page { padding: 28px; }
 
-.shell {
-  width:100%;
-  max-width:1180px;
+.header {
+  max-width:1100px;
+  margin: 0 auto 18px auto;
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid var(--border);
-  border-radius: 22px;
-  padding: 42px;
+  border-radius: 18px;
+  padding: 18px 22px;
   box-shadow: var(--shadow);
 }
 
-.topbar {
+.brand-row {
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:20px;
-  margin-bottom:28px;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
 }
 
-.logo {
-  font-size:22px;
-  font-weight:700;
-  letter-spacing:1px;
-  color:var(--text);
-  text-decoration:none;
+.brand {
+  font-size: 32px;
+  font-weight: 900;
+  cursor: pointer;
+  letter-spacing: 0.5px;
 }
 
-.logo span {
-  color:var(--accent);
-}
+.brand span { color: var(--accent); }
 
-.nav {
+.ecosystem-nav {
   display:flex;
-  gap:14px;
+  gap:10px;
   flex-wrap:wrap;
+  justify-content:flex-end;
 }
 
-.nav a {
-  color:var(--muted);
+.nav-btn {
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:12px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--muted);
+  cursor:pointer;
   text-decoration:none;
-  font-size:13px;
+  display:inline-block;
 }
 
-.nav a:hover {
-  color:var(--text);
+.nav-btn:hover {
+  color: var(--text);
+  border-color: rgba(122,162,255,0.25);
+}
+
+.nav-btn.active {
+  background: rgba(122,162,255,0.15);
+  border-color: rgba(122,162,255,0.35);
+  color: var(--text);
 }
 
 .back {
   display:inline-block;
-  color:var(--muted);
+  color: var(--muted);
   text-decoration:none;
   font-size:13px;
-  margin-bottom:22px;
+  margin-top:2px;
 }
 
 .back:hover {
   color:var(--text);
 }
 
-h1 {
-  font-size:38px;
-  letter-spacing:1px;
-  margin:0 0 10px 0;
-  font-weight:700;
+#app {
+  max-width:1100px;
+  margin: 0 auto;
 }
 
-.subtitle {
-  color:var(--muted);
+.hero {
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  margin-bottom:18px;
+}
+
+.hero h1 {
+  margin:0 0 8px 0;
+  font-size:32px;
+}
+
+.hero p {
+  margin:0;
   font-size:14px;
+  color:var(--muted);
   line-height:1.6;
-  margin:0 0 26px 0;
-  max-width:850px;
-}
-
-.divider {
-  height:1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-  margin: 28px 0;
 }
 
 .stats {
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap:12px;
-  margin-bottom:24px;
+  margin-bottom:18px;
 }
 
 .stat {
@@ -139,12 +155,12 @@ h1 {
 .layout {
   display:grid;
   grid-template-columns:minmax(0,1fr) 300px;
-  gap:22px;
+  gap:18px;
   align-items:start;
 }
 
 .panel {
-  background: rgba(255,255,255,0.03);
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
   border:1px solid var(--border);
   border-radius:16px;
   padding:18px;
@@ -292,13 +308,6 @@ th {
   border-color:rgba(255,100,100,0.25);
 }
 
-.footer {
-  margin-top: 36px;
-  text-align:center;
-  font-size:12px;
-  color: rgba(255,255,255,0.35);
-}
-
 @media (max-width: 850px) {
   .layout {
     grid-template-columns:1fr;
@@ -309,22 +318,22 @@ th {
   }
 }
 
-@media (max-width: 700px) {
-  .wrapper {
-    padding:22px;
+@media (max-width: 720px) {
+  .page {
+    padding: 20px;
   }
 
-  .shell {
-    padding:32px 22px;
-  }
-
-  .topbar {
+  .brand-row {
     flex-direction:column;
     align-items:flex-start;
   }
 
-  h1 {
-    font-size:30px;
+  .ecosystem-nav {
+    justify-content:flex-start;
+  }
+
+  .brand {
+    font-size:28px;
   }
 }
 </style>
@@ -332,34 +341,38 @@ th {
 
 <body>
 
-<div class="wrapper">
-  <div class="shell">
+<div class="page">
 
-    <div class="topbar">
-      <a class="logo" href="./index.html"><span>Media</span> Tiles</a>
-      <div class="nav">
-        <a href="./index.html">Home</a>
-        <a href="./browse.html">Library</a>
-        <a href="./builds.html">Builds</a>
+  <div class="header">
+
+    <div class="brand-row">
+
+      <div class="brand" id="brand"><span>Media</span> Tiles</div>
+
+      <div class="ecosystem-nav">
+        <a class="nav-btn" href="./index.html">Home</a>
+        <a class="nav-btn" href="./browse.html">Library</a>
+        <a class="nav-btn active" href="./builds.html">Builds</a>
+        <a class="nav-btn" href="https://guyititian.github.io/media-lab/">Tools</a>
       </div>
+
     </div>
 
     <a class="back" href="./builds.html">← Back to Builds</a>
 
-    <div id="app">
-      <div class="empty">Loading build...</div>
-    </div>
-
-    <div class="footer">
-      Media Tiles • Library • Builds • Tools
-    </div>
-
   </div>
+
+  <div id="app">Loading...</div>
+
 </div>
 
 <script>
 const app = document.getElementById("app");
 const slug = new URLSearchParams(window.location.search).get("slug");
+
+document.getElementById("brand").onclick = () => {
+  window.location.href = "index.html";
+};
 
 function pathFor(file) {
   return `./builds/${encodeURIComponent(slug)}/${file}`;
@@ -579,12 +592,12 @@ async function load() {
     document.title = `${text(build.title, "Build Details")} | Media Tiles`;
 
     app.innerHTML = `
-      <h1>${text(build.title, "Untitled Build")}</h1>
-      <p class="subtitle">${text(build.description, "No description provided.")}</p>
+      <section class="hero">
+        <h1>${text(build.title, "Untitled Build")}</h1>
+        <p>${text(build.description, "No description provided.")}</p>
+      </section>
 
       ${renderStats(stats)}
-
-      <div class="divider"></div>
 
       <div class="layout">
         <div>
