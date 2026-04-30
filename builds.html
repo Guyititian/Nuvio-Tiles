@@ -30,7 +30,7 @@ body {
   display:flex;
   align-items:flex-start;
   justify-content:center;
-  padding:28px;
+  padding:40px;
 }
 
 .shell {
@@ -38,8 +38,8 @@ body {
   max-width:1100px;
   background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 18px 22px;
+  border-radius: 22px;
+  padding: 42px;
   box-shadow: var(--shadow);
 }
 
@@ -266,7 +266,7 @@ body {
 
 @media (max-width: 760px) {
   .wrapper {
-    padding:20px;
+    padding:22px;
   }
 
   .shell {
@@ -348,6 +348,14 @@ function text(value, fallback = "") {
   return value === undefined || value === null || value === "" ? fallback : String(value);
 }
 
+function platformText(build) {
+  if (Array.isArray(build.platforms) && build.platforms.length) {
+    return build.platforms.join(", ");
+  }
+
+  return text(build.platform, "Nuvio");
+}
+
 function collectionsFrom(nuvio) {
   return Array.isArray(nuvio) ? nuvio : [];
 }
@@ -392,6 +400,10 @@ function render() {
       build.status,
       build.category,
       build.description,
+      build.catalogLayer,
+      build.importStyle,
+      build.artworkHosting,
+      ...(build.platforms || []),
       ...(build.tags || [])
     ].join(" ").toLowerCase();
 
@@ -404,7 +416,6 @@ function render() {
   }
 
   grid.innerHTML = visible.map(build => {
-    const stats = build.stats || {};
     const images = build.previewImages || [];
 
     const imageHtml = images.length
@@ -420,9 +431,9 @@ function render() {
           <p>${text(build.description, "No description provided.")}</p>
 
           <div class="meta">
-            <div>Collections: <strong>${stats.collections ?? "—"}</strong></div>
-            <div>Folders: <strong>${stats.folders ?? "—"}</strong></div>
-            <div>Sources: <strong>${stats.sources ?? "—"}</strong></div>
+            <div>Platform: <strong>${platformText(build)}</strong></div>
+            <div>Catalog Layer: <strong>${text(build.catalogLayer, "aiometadata")}</strong></div>
+            <div>Pack Type: <strong>${text(build.category, build.packageType || "Build Pack")}</strong></div>
             <div>Status: <strong>${text(build.status, "Community")}</strong></div>
           </div>
 
