@@ -18,7 +18,7 @@
   "nuvioJson": "nuvio-collections.json",
   "aioJson": "aiometadata-catalogs.json",
   "artworkHosting": "Hosted URLs",
-  "importStyle": "Nuvio Collections JSON + AIOMetadata Catalogs JSON",
+  "importStyle": "Nuvio JSON + AIOMetadata JSON",
   "setupNotes": [
     "Import the AIOMetadata catalog export first.",
     "Then import or recreate the Nuvio collections.",
