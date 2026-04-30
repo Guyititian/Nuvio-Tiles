@@ -1,0 +1,27 @@
+{
+  "title": "Guyititian Nuvio Starter Build",
+  "slug": "guyititian-nuvio-starter-build",
+  "creator": "Guyititian",
+  "status": "Official",
+  "platforms": ["Nuvio", "aiometadata"],
+  "packageType": "Nuvio Collection Pack",
+  "buildType": "Multi-Collection Pack",
+  "category": "Full Builds",
+  "description": "A Nuvio-ready starter build with collection artwork previews, folder organization, catalog source references, and a matching aiometadata catalog export.",
+  "tags": ["nuvio", "aiometadata", "franchises", "genres", "decades", "networks", "media-tiles"],
+  "version": "1.0",
+  "lastUpdated": "2026-04-29",
+  "nuvioJson": "nuvio-collections.json",
+  "aioJson": "aiometadata-catalogs.json",
+  "setupNotes": [
+    "Import the aiometadata catalog export first.",
+    "Then import or recreate the Nuvio collections.",
+    "Review catalog mappings inside Nuvio after import, especially if your aiometadata instance or addon ID differs from the creator setup.",
+    "Artwork is loaded from the URLs included in the Nuvio collections JSON."
+  ],
+  "knownIssues": [
+    "Some catalog IDs may be instance-specific.",
+    "Some artwork may be hosted externally and depends on the original host remaining available.",
+    "Per-collection downloads, trimmed catalog exports, and mix-and-match builds are planned for later."
+  ]
+}
