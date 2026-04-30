@@ -533,8 +533,6 @@ function renderFilterSummary(visibleCount) {
   const filters = activeFilters();
   const parts = [];
 
-  parts.push(`<span>${visibleCount} build${visibleCount === 1 ? "" : "s"} shown</span>`);
-
   if (filters.query) {
     parts.push(`<span class="filter-pill">Search: ${filters.query}</span>`);
   }
@@ -548,6 +546,7 @@ function renderFilterSummary(visibleCount) {
   }
 
   if (filters.query || filters.category || filters.language) {
+    parts.unshift(`<span>${visibleCount} build${visibleCount === 1 ? "" : "s"} shown</span>`);
     parts.push(`<button class="reset-btn" type="button" onclick="clearFilters()">Clear Filters</button>`);
   }
 
