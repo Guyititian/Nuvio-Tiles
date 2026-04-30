@@ -436,6 +436,7 @@ th {
       <div class="ecosystem-nav">
         <a class="nav-btn" href="./browse.html">Library</a>
         <a class="nav-btn active" href="./builds.html">Builds</a>
+        <a class="nav-btn" href="./submit.html">Submit</a>
         <a class="nav-btn" href="https://guyititian.github.io/media-lab/">Tools</a>
       </div>
 
@@ -666,12 +667,17 @@ function renderCompatibility(build) {
 
         <div class="compat-item">
           <span class="compat-label">Catalog Layer</span>
-          <span class="compat-value">${text(build.catalogLayer, "aiometadata")}</span>
+          <span class="compat-value">${text(build.catalogLayer, "AIOMetadata")}</span>
         </div>
 
         <div class="compat-item">
           <span class="compat-label">Pack Type</span>
           <span class="compat-value">${text(build.category, build.packageType || "Build Pack")}</span>
+        </div>
+
+        <div class="compat-item">
+          <span class="compat-label">Language</span>
+          <span class="compat-value">${text(build.language, "Unknown")}</span>
         </div>
 
         <div class="compat-item">
@@ -681,7 +687,7 @@ function renderCompatibility(build) {
 
         <div class="compat-item">
           <span class="compat-label">Import Style</span>
-          <span class="compat-value">${text(build.importStyle, "Nuvio JSON + aiometadata JSON")}</span>
+          <span class="compat-value">${text(build.importStyle, "Nuvio JSON + AIOMetadata JSON")}</span>
         </div>
       </div>
     </section>
@@ -697,7 +703,7 @@ function renderDownloads(build) {
       <h2>Downloads</h2>
       <p>Download the files for this build.</p>
       <a class="button" href="${pathFor(nuvioFile)}" download>Download Nuvio JSON</a>
-      <a class="button" href="${pathFor(aioFile)}" download>Download aiometadata JSON</a>
+      <a class="button" href="${pathFor(aioFile)}" download>Download AIOMetadata JSON</a>
     </section>
   `;
 }
