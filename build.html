@@ -687,7 +687,7 @@ function renderCompatibility(build) {
 
         <div class="compat-item">
           <span class="compat-label">Import Style</span>
-          <span class="compat-value">${text(build.importStyle, "Nuvio JSON + AIOMetadata JSON")}</span>
+          <span class="compat-value">${text(build.importStyle, "Nuvio Collections JSON + AIOMetadata Catalogs JSON")}</span>
         </div>
       </div>
     </section>
@@ -703,7 +703,7 @@ function renderDownloads(build) {
       <h2>Downloads</h2>
       <p>Download the files for this build.</p>
       <a class="button" href="${pathFor(nuvioFile)}" download>Download Nuvio JSON</a>
-      <a class="button" href="${pathFor(aioFile)}" download>Download AIOMetadata JSON</a>
+      <a class="button" href="${pathFor(aioFile)}" download>Download AIOMetadata Catalogs JSON</a>
     </section>
   `;
 }
