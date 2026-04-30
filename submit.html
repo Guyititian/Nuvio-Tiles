@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Submit Build | Media Tiles</title>
+
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #121823;
+  --panel-2: #0f141d;
+  --text: #e8eef7;
+  --muted: rgba(232, 238, 247, 0.6);
+  --accent: #7aa2ff;
+  --border: rgba(255,255,255,0.06);
+  --shadow: 0 20px 60px rgba(0,0,0,0.55);
+  --good: #8ff0b2;
+  --warn: #ffd37a;
+  --bad: #ff9a9a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin:0;
+  background: radial-gradient(1200px 800px at 50% 10%, #141b2a 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Arial;
+}
+
+.page {
+  padding: 28px;
+}
+
+.header {
+  max-width:1100px;
+  margin: 0 auto 18px auto;
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px 22px;
+  box-shadow: var(--shadow);
+}
+
+.brand-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.brand {
+  font-size: 32px;
+  font-weight: 900;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.brand span { color: var(--accent); }
+
+.ecosystem-nav {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.nav-btn {
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:12px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--muted);
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  transition:0.2s;
+}
+
+.nav-btn:hover {
+  transform: translateY(-2px);
+  color: var(--text);
+  border-color: rgba(122,162,255,0.25);
+}
+
+.nav-btn.active {
+  background: rgba(122,162,255,0.15);
+  border-color: rgba(122,162,255,0.35);
+  color: var(--text);
+  box-shadow: 0 10px 30px rgba(122,162,255,0.08);
+}
+
+.section-title {
+  text-align:center;
+  margin: 28px 0 26px 0;
+}
+
+.section-title h1 {
+  font-size: 42px;
+  letter-spacing: 1px;
+  margin: 0;
+  font-weight: 800;
+}
+
+.section-title h1 span {
+  color: var(--accent);
+}
+
+.section-title p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height:1.5;
+}
+
+.divider {
+  height:1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  margin: 28px 0;
+}
+
+#app {
+  max-width:1100px;
+  margin:0 auto;
+}
+
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 320px;
+  gap:18px;
+  align-items:start;
+}
+
+.panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.panel h2 {
+  margin:0 0 14px 0;
+  font-size:20px;
+}
+
+.panel p,
+.panel li {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.form-grid {
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:14px;
+}
+
+.field {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.field.full {
+  grid-column:1 / -1;
+}
+
+label {
+  font-size:12px;
+  color:var(--muted);
+}
+
+input,
+select,
+textarea {
+  width:100%;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,0.03);
+  color:var(--text);
+  padding:11px 12px;
+  outline:none;
+  font-family: inherit;
+}
+
+textarea {
+  min-height:90px;
+  resize:vertical;
+  line-height:1.45;
+}
+
+select option {
+  color:#000;
+}
+
+.help {
+  font-size:12px;
+  color:rgba(232,238,247,0.42);
+  line-height:1.4;
+}
+
+.file-row {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+}
+
+.status-list {
+  display:grid;
+  gap:10px;
+}
+
+.status-item {
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+  background:rgba(255,255,255,0.025);
+  font-size:13px;
+  color:var(--muted);
+}
+
+.status-item strong {
+  color:var(--text);
+}
+
+.status-good {
+  border-color:rgba(143,240,178,0.3);
+}
+
+.status-good strong {
+  color:var(--good);
+}
+
+.status-warn {
+  border-color:rgba(255,211,122,0.3);
+}
+
+.status-warn strong {
+  color:var(--warn);
+}
+
+.status-bad {
+  border-color:rgba(255,154,154,0.3);
+}
+
+.status-bad strong {
+  color:var(--bad);
+}
+
+.stats {
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:10px;
+}
+
+.stat {
+  background:rgba(255,255,255,0.025);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+}
+
+.stat span {
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+
+.stat strong {
+  font-size:22px;
+  color:var(--text);
+}
+
+.actions {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.button {
+  display:inline-block;
+  padding:11px 13px;
+  border-radius:10px;
+  border:1px solid rgba(122,162,255,0.25);
+  background:rgba(122,162,255,0.12);
+  color:var(--text);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  text-align:center;
+}
+
+.button:hover {
+  background:rgba(122,162,255,0.18);
+}
+
+.button.secondary {
+  background:rgba(255,255,255,0.03);
+  border-color:var(--border);
+  color:var(--muted);
+}
+
+.button.secondary:hover {
+  color:var(--text);
+}
+
+.output {
+  min-height:220px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size:12px;
+  white-space:pre;
+}
+
+.side-column {
+  position:sticky;
+  top:20px;
+}
+
+.checklist {
+  padding-left:18px;
+  margin-bottom:0;
+}
+
+.badge {
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:999px;
+  border:1px solid rgba(122,162,255,0.25);
+  background:rgba(122,162,255,0.12);
+  color:var(--text);
+  font-size:12px;
+  margin:2px 4px 2px 0;
+}
+
+.notice {
+  border:1px solid rgba(255,211,122,0.25);
+  background:rgba(255,211,122,0.06);
+  border-radius:14px;
+  padding:14px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.hidden {
+  display:none;
+}
+
+#toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color:#000;
+  padding:10px 14px;
+  border-radius:10px;
+  opacity:0;
+  transition:0.2s;
+  pointer-events:none;
+  z-index:10;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns:1fr;
+  }
+
+  .side-column {
+    position:static;
+  }
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding:20px;
+  }
+
+  .brand-row {
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .ecosystem-nav {
+    justify-content:flex-start;
+  }
+
+  .brand {
+    font-size:28px;
+  }
+
+  .section-title h1 {
+    font-size:34px;
+  }
+
+  .form-grid {
+    grid-template-columns:1fr;
+  }
+
+  .stats {
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <div class="header">
+
+    <div class="brand-row">
+
+      <div class="brand" id="brand"><span>Media</span> Tiles</div>
+
+      <div class="ecosystem-nav">
+        <a class="nav-btn" href="./browse.html">Library</a>
+        <a class="nav-btn" href="./builds.html">Builds</a>
+        <a class="nav-btn active" href="./submit.html">Submit</a>
+        <a class="nav-btn" href="https://guyititian.github.io/media-lab/">Tools</a>
+      </div>
+
+    </div>
+
+    <div class="section-title">
+      <h1><span>Media</span> Submissions</h1>
+      <p>Prepare a Nuvio-ready build package for review without uploading anything automatically.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="notice">
+      This page does not publish your build automatically. It validates your metadata and JSON files locally in your browser, then generates a clean copy/paste submission package for review.
+    </div>
+
+  </div>
+
+  <div id="app">
+
+    <div class="layout">
+
+      <main>
+
+        <section class="panel">
+          <h2>Build Details</h2>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="title">Build Title *</label>
+              <input id="title" placeholder="Example: My Nuvio Genre Pack">
+            </div>
+
+            <div class="field">
+              <label for="creator">Creator Name *</label>
+              <input id="creator" placeholder="Example: Guyititian">
+            </div>
+
+            <div class="field full">
+              <label for="description">Short Description *</label>
+              <textarea id="description" placeholder="Describe what this build includes and who it is for."></textarea>
+            </div>
+
+            <div class="field">
+              <label for="category">Category *</label>
+              <select id="category">
+                <option value="">Select a category</option>
+                <option>Full Build</option>
+                <option>Franchise Pack</option>
+                <option>Genre Pack</option>
+                <option>Decade Pack</option>
+                <option>Network Pack</option>
+                <option>Kids Pack</option>
+                <option>Seasonal Pack</option>
+                <option>Specialty Pack</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="language">Language *</label>
+              <select id="language">
+                <option value="">Select a language</option>
+                <option value="English" data-code="en">English</option>
+                <option value="Spanish" data-code="es">Spanish</option>
+                <option value="French" data-code="fr">French</option>
+                <option value="German" data-code="de">German</option>
+                <option value="Italian" data-code="it">Italian</option>
+                <option value="Portuguese" data-code="pt">Portuguese</option>
+                <option value="Dutch" data-code="nl">Dutch</option>
+                <option value="Turkish" data-code="tr">Turkish</option>
+                <option value="Arabic" data-code="ar">Arabic</option>
+                <option value="Hindi" data-code="hi">Hindi</option>
+                <option value="Japanese" data-code="ja">Japanese</option>
+                <option value="Korean" data-code="ko">Korean</option>
+                <option value="Chinese" data-code="zh">Chinese</option>
+                <option value="Multi-language" data-code="multi">Multi-language</option>
+                <option value="Other" data-code="other">Other</option>
+              </select>
+            </div>
+
+            <div class="field hidden" id="otherLanguageWrap">
+              <label for="otherLanguage">Other Language</label>
+              <input id="otherLanguage" placeholder="Enter language">
+            </div>
+
+            <div class="field">
+              <label for="packageType">Pack Type</label>
+              <input id="packageType" value="Nuvio Collection Pack">
+              <div class="help">Default is fine for most submissions.</div>
+            </div>
+
+            <div class="field">
+              <label for="buildType">Build Type</label>
+              <input id="buildType" value="Community Build">
+              <div class="help">Examples: Full Build, Multi-Collection Pack, Genre Pack.</div>
+            </div>
+
+            <div class="field full">
+              <label for="tags">Tags</label>
+              <input id="tags" placeholder="nuvio, aiometadata, genres, franchises">
+              <div class="help">Comma-separated. These help search and filtering later.</div>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Compatibility Defaults</h2>
+
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="platform">Platform</label>
+              <input id="platform" value="Nuvio" readonly>
+            </div>
+
+            <div class="field">
+              <label for="catalogLayer">Catalog Layer</label>
+              <input id="catalogLayer" value="aiometadata" readonly>
+            </div>
+
+            <div class="field">
+              <label for="artworkHosting">Artwork Hosting</label>
+              <input id="artworkHosting" value="Hosted URLs">
+            </div>
+
+            <div class="field">
+              <label for="importStyle">Import Style</label>
+              <input id="importStyle" value="Nuvio collections JSON + aiometadata catalog export">
+            </div>
+
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Setup Notes</h2>
+
+          <div class="form-grid">
+
+            <div class="field full">
+              <label for="setupNotes">Setup Notes</label>
+              <textarea id="setupNotes">Import the aiometadata catalog export first.
+Then import or recreate the Nuvio collections.
+Review catalog mappings inside Nuvio after import, especially if your aiometadata instance or addon ID differs from the creator setup.
+Artwork is loaded from the URLs included in the Nuvio collections JSON.</textarea>
+              <div class="help">One note per line.</div>
+            </div>
+
+            <div class="field full">
+              <label for="knownIssues">Known Issues / Compatibility Notes</label>
+              <textarea id="knownIssues">Some catalog IDs may be instance-specific.
+Some artwork may be hosted externally and depends on the original host remaining available.</textarea>
+              <div class="help">One issue per line.</div>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>JSON Files</h2>
+
+          <div class="file-row">
+
+            <div class="field">
+              <label for="nuvioFile">Nuvio Collections JSON *</label>
+              <input id="nuvioFile" type="file" accept=".json,application/json">
+              <div class="help">Expected structure: array of Nuvio collections with folders and catalogSources.</div>
+            </div>
+
+            <div class="field">
+              <label for="aioFile">aiometadata Catalog Export JSON *</label>
+              <input id="aioFile" type="file" accept=".json,application/json">
+              <div class="help">Expected structure: object with a catalogs array.</div>
+            </div>
+
+          </div>
+
+          <div class="actions">
+            <button class="button" type="button" onclick="generatePackage()">Generate Submission Package</button>
+            <button class="button secondary" type="button" onclick="resetOutputs()">Clear Output</button>
+          </div>
+        </section>
+
+        <section class="panel" id="outputPanel">
+          <h2>Generated build.json</h2>
+          <textarea id="buildJsonOutput" class="output" readonly placeholder="Generated build.json will appear here."></textarea>
+
+          <div class="actions">
+            <button class="button" type="button" onclick="copyOutput('buildJsonOutput')">Copy build.json</button>
+            <button class="button secondary" type="button" onclick="downloadBuildJson()">Download build.json</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Copy/Paste Submission Text</h2>
+          <textarea id="submissionOutput" class="output" readonly placeholder="Review-ready submission text will appear here."></textarea>
+
+          <div class="actions">
+            <button class="button" type="button" onclick="copyOutput('submissionOutput')">Copy Submission Text</button>
+          </div>
+        </section>
+
+      </main>
+
+      <aside class="side-column">
+
+        <section class="panel">
+          <h2>Validation</h2>
+          <div id="validationList" class="status-list">
+            <div class="status-item">No package generated yet.</div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Detected Stats</h2>
+          <div id="statsBox" class="stats">
+            <div class="stat"><span>Collections</span><strong>—</strong></div>
+            <div class="stat"><span>Folders</span><strong>—</strong></div>
+            <div class="stat"><span>Sources</span><strong>—</strong></div>
+            <div class="stat"><span>AIO Catalogs</span><strong>—</strong></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Required Files</h2>
+          <p>The final build folder should contain:</p>
+          <div>
+            <span class="badge">build.json</span>
+            <span class="badge">nuvio-collections.json</span>
+            <span class="badge">aiometadata-catalogs.json</span>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2>Review Checklist</h2>
+          <ul class="checklist">
+            <li>Build title and creator are filled in.</li>
+            <li>Nuvio JSON validates as a collection array.</li>
+            <li>aiometadata JSON validates with a catalogs array.</li>
+            <li>Artwork URLs appear intentional.</li>
+            <li>Setup notes explain any unusual requirements.</li>
+          </ul>
+        </section>
+
+      </aside>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div id="toast">Copied</div>
+
+<script>
+let parsedNuvio = null;
+let parsedAio = null;
+let latestBuildJson = "";
+let latestFolderName = "";
+
+document.getElementById("brand").onclick = () => {
+  window.location.href = "index.html";
+};
+
+document.getElementById("language").addEventListener("change", () => {
+  const language = document.getElementById("language").value;
+  document.getElementById("otherLanguageWrap").classList.toggle("hidden", language !== "Other");
+});
+
+function text(value, fallback = "") {
+  return value === undefined || value === null || String(value).trim() === "" ? fallback : String(value).trim();
+}
+
+function linesFromTextarea(id) {
+  return document.getElementById(id).value
+    .split("\n")
+    .map(line => line.trim())
+    .filter(Boolean);
+}
+
+function tagsFromInput() {
+  return document.getElementById("tags").value
+    .split(",")
+    .map(tag => tag.trim())
+    .filter(Boolean);
+}
+
+function slugify(value) {
+  return text(value, "untitled-build")
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80) || "untitled-build";
+}
+
+function getSelectedLanguage() {
+  const select = document.getElementById("language");
+  const selected = select.options[select.selectedIndex];
+
+  let language = select.value;
+  let code = selected ? selected.dataset.code : "";
+
+  if (language === "Other") {
+    language = text(document.getElementById("otherLanguage").value, "Other");
+    code = "other";
+  }
+
+  return {
+    language,
+    languageCode: code || "unknown"
+  };
+}
+
+function readJsonFile(inputId) {
+  return new Promise((resolve, reject) => {
+    const input = document.getElementById(inputId);
+    const file = input.files && input.files[0];
+
+    if (!file) {
+      reject(new Error("No file selected."));
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      try {
+        resolve({
+          filename: file.name,
+          json: JSON.parse(reader.result)
+        });
+      } catch (error) {
+        reject(new Error(`${file.name} is not valid JSON.`));
+      }
+    };
+
+    reader.onerror = () => reject(new Error(`Could not read ${file.name}.`));
+    reader.readAsText(file);
+  });
+}
+
+function collectionsFrom(nuvio) {
+  return Array.isArray(nuvio) ? nuvio : [];
+}
+
+function foldersFrom(nuvio) {
+  return collectionsFrom(nuvio).flatMap(collection => Array.isArray(collection.folders) ? collection.folders : []);
+}
+
+function sourcesFrom(nuvio) {
+  return foldersFrom(nuvio).flatMap(folder => Array.isArray(folder.catalogSources) ? folder.catalogSources : []);
+}
+
+function statsFrom(nuvio, aio) {
+  const folders = foldersFrom(nuvio);
+
+  return {
+    collections: collectionsFrom(nuvio).length,
+    folders: folders.length,
+    sources: sourcesFrom(nuvio).length,
+    artwork: folders.filter(folder => folder.coverImageUrl).length,
+    focusGifs: folders.filter(folder => folder.focusGifEnabled && folder.focusGifUrl).length,
+    aioCatalogs: Array.isArray(aio.catalogs) ? aio.catalogs.length : 0
+  };
+}
+
+function validateNuvio(nuvio) {
+  const messages = [];
+
+  if (!Array.isArray(nuvio)) {
+    messages.push({
+      type: "bad",
+      title: "Nuvio JSON",
+      message: "Nuvio JSON should be an array of collections."
+    });
+    return messages;
+  }
+
+  const collections = collectionsFrom(nuvio);
+  const folders = foldersFrom(nuvio);
+  const sources = sourcesFrom(nuvio);
+
+  messages.push({
+    type: collections.length ? "good" : "warn",
+    title: "Collections",
+    message: `${collections.length} collection${collections.length === 1 ? "" : "s"} detected.`
+  });
+
+  messages.push({
+    type: folders.length ? "good" : "warn",
+    title: "Folders",
+    message: `${folders.length} folder${folders.length === 1 ? "" : "s"} detected.`
+  });
+
+  messages.push({
+    type: sources.length ? "good" : "warn",
+    title: "Catalog Sources",
+    message: `${sources.length} catalog source reference${sources.length === 1 ? "" : "s"} detected.`
+  });
+
+  const missingTitles = folders.filter(folder => !folder.title).length;
+  if (missingTitles) {
+    messages.push({
+      type: "warn",
+      title: "Folder Titles",
+      message: `${missingTitles} folder${missingTitles === 1 ? "" : "s"} missing a title.`
+    });
+  }
+
+  const missingArtwork = folders.filter(folder => !folder.coverImageUrl).length;
+  if (missingArtwork) {
+    messages.push({
+      type: "warn",
+      title: "Artwork",
+      message: `${missingArtwork} folder${missingArtwork === 1 ? "" : "s"} missing coverImageUrl.`
+    });
+  }
+
+  return messages;
+}
+
+function validateAio(aio) {
+  if (!aio || !Array.isArray(aio.catalogs)) {
+    return [{
+      type: "bad",
+      title: "aiometadata JSON",
+      message: "aiometadata JSON should have a top-level catalogs array."
+    }];
+  }
+
+  return [{
+    type: aio.catalogs.length ? "good" : "warn",
+    title: "aiometadata Catalogs",
+    message: `${aio.catalogs.length} catalog${aio.catalogs.length === 1 ? "" : "s"} detected.`
+  }];
+}
+
+function renderValidation(messages) {
+  const list = document.getElementById("validationList");
+
+  list.innerHTML = messages.map(item => `
+    <div class="status-item status-${item.type}">
+      <strong>${item.title}</strong><br>
+      ${item.message}
+    </div>
+  `).join("");
+}
+
+function renderStats(stats) {
+  document.getElementById("statsBox").innerHTML = `
+    <div class="stat"><span>Collections</span><strong>${stats.collections}</strong></div>
+    <div class="stat"><span>Folders</span><strong>${stats.folders}</strong></div>
+    <div class="stat"><span>Sources</span><strong>${stats.sources}</strong></div>
+    <div class="stat"><span>AIO Catalogs</span><strong>${stats.aioCatalogs}</strong></div>
+  `;
+}
+
+function buildJsonObject() {
+  const title = text(document.getElementById("title").value);
+  const creator = text(document.getElementById("creator").value);
+  const category = text(document.getElementById("category").value);
+  const description = text(document.getElementById("description").value);
+  const languageInfo = getSelectedLanguage();
+
+  const slug = slugify(`${creator}-${title}`);
+  latestFolderName = slug;
+
+  return {
+    title,
+    slug,
+    creator,
+    status: "Community",
+    platforms: ["Nuvio"],
+    catalogLayer: "aiometadata",
+    packageType: text(document.getElementById("packageType").value, "Nuvio Collection Pack"),
+    buildType: text(document.getElementById("buildType").value, "Community Build"),
+    category,
+    language: languageInfo.language,
+    languageCode: languageInfo.languageCode,
+    languageNotes: `Folder titles, setup notes, and build description are written in ${languageInfo.language}.`,
+    description,
+    tags: tagsFromInput(),
+    version: "1.0",
+    lastUpdated: new Date().toISOString().slice(0, 10),
+    nuvioJson: "nuvio-collections.json",
+    aioJson: "aiometadata-catalogs.json",
+    artworkHosting: text(document.getElementById("artworkHosting").value, "Hosted URLs"),
+    importStyle: text(document.getElementById("importStyle").value, "Nuvio collections JSON + aiometadata catalog export"),
+    setupNotes: linesFromTextarea("setupNotes"),
+    knownIssues: linesFromTextarea("knownIssues")
+  };
+}
+
+function requiredFieldMessages() {
+  const messages = [];
+
+  const required = [
+    ["Build Title", document.getElementById("title").value],
+    ["Creator Name", document.getElementById("creator").value],
+    ["Description", document.getElementById("description").value],
+    ["Category", document.getElementById("category").value],
+    ["Language", document.getElementById("language").value]
+  ];
+
+  required.forEach(([label, value]) => {
+    if (!text(value)) {
+      messages.push({
+        type: "bad",
+        title: label,
+        message: `${label} is required.`
+      });
+    }
+  });
+
+  if (document.getElementById("language").value === "Other" && !text(document.getElementById("otherLanguage").value)) {
+    messages.push({
+      type: "bad",
+      title: "Other Language",
+      message: "Please enter the language name."
+    });
+  }
+
+  return messages;
+}
+
+function submissionText(build, stats, nuvioFilename, aioFilename) {
+  return `Media Tiles Build Submission
+
+Title: ${build.title}
+Creator: ${build.creator}
+Suggested Folder: builds/${build.slug}/
+Status: ${build.status}
+Platform: ${build.platforms.join(", ")}
+Catalog Layer: ${build.catalogLayer}
+Category: ${build.category}
+Package Type: ${build.packageType}
+Build Type: ${build.buildType}
+Language: ${build.language} (${build.languageCode})
+
+Description:
+${build.description}
+
+Detected Stats:
+- Collections: ${stats.collections}
+- Folders: ${stats.folders}
+- Catalog Sources: ${stats.sources}
+- Artwork URLs: ${stats.artwork}
+- Focus GIFs: ${stats.focusGifs}
+- aiometadata Catalogs: ${stats.aioCatalogs}
+
+Files Included / Required:
+- build.json
+- nuvio-collections.json  ${nuvioFilename ? `(submitted file: ${nuvioFilename})` : ""}
+- aiometadata-catalogs.json  ${aioFilename ? `(submitted file: ${aioFilename})` : ""}
+
+Setup Notes:
+${build.setupNotes.map(note => `- ${note}`).join("\n") || "- None provided"}
+
+Known Issues / Compatibility Notes:
+${build.knownIssues.map(issue => `- ${issue}`).join("\n") || "- None provided"}
+
+Tags:
+${build.tags.join(", ") || "None"}
+
+Reviewer Checklist:
+- Confirm Nuvio JSON imports correctly.
+- Confirm aiometadata catalog export imports correctly.
+- Confirm catalog IDs are valid or clearly instance-specific.
+- Confirm artwork URLs load.
+- Confirm build category and language metadata are accurate.`;
+}
+
+async function generatePackage() {
+  const validationMessages = requiredFieldMessages();
+
+  let nuvioResult = null;
+  let aioResult = null;
+
+  try {
+    nuvioResult = await readJsonFile("nuvioFile");
+    parsedNuvio = nuvioResult.json;
+  } catch (error) {
+    validationMessages.push({
+      type: "bad",
+      title: "Nuvio JSON",
+      message: error.message
+    });
+  }
+
+  try {
+    aioResult = await readJsonFile("aioFile");
+    parsedAio = aioResult.json;
+  } catch (error) {
+    validationMessages.push({
+      type: "bad",
+      title: "aiometadata JSON",
+      message: error.message
+    });
+  }
+
+  if (parsedNuvio) {
+    validationMessages.push(...validateNuvio(parsedNuvio));
+  }
+
+  if (parsedAio) {
+    validationMessages.push(...validateAio(parsedAio));
+  }
+
+  renderValidation(validationMessages);
+
+  const hasBlockingError = validationMessages.some(item => item.type === "bad");
+
+  if (parsedNuvio && parsedAio) {
+    renderStats(statsFrom(parsedNuvio, parsedAio));
+  }
+
+  if (hasBlockingError) {
+    document.getElementById("buildJsonOutput").value = "";
+    document.getElementById("submissionOutput").value = "Fix the required fields or JSON validation errors before generating the submission package.";
+    latestBuildJson = "";
+    return;
+  }
+
+  const build = buildJsonObject();
+  const stats = statsFrom(parsedNuvio, parsedAio);
+
+  latestBuildJson = JSON.stringify(build, null, 2);
+
+  document.getElementById("buildJsonOutput").value = latestBuildJson;
+  document.getElementById("submissionOutput").value = submissionText(
+    build,
+    stats,
+    nuvioResult ? nuvioResult.filename : "",
+    aioResult ? aioResult.filename : ""
+  );
+
+  renderValidation([
+    {
+      type: "good",
+      title: "Submission Package",
+      message: `Ready. Suggested folder: builds/${build.slug}/`
+    },
+    ...validationMessages.filter(item => item.type !== "bad")
+  ]);
+}
+
+function copyOutput(id) {
+  const el = document.getElementById(id);
+
+  if (!el.value) return;
+
+  navigator.clipboard.writeText(el.value);
+
+  const toast = document.getElementById("toast");
+  toast.style.opacity = 1;
+  setTimeout(() => toast.style.opacity = 0, 900);
+}
+
+function downloadBuildJson() {
+  if (!latestBuildJson) return;
+
+  const blob = new Blob([latestBuildJson], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "build.json";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  URL.revokeObjectURL(url);
+}
+
+function resetOutputs() {
+  parsedNuvio = null;
+  parsedAio = null;
+  latestBuildJson = "";
+  latestFolderName = "";
+
+  document.getElementById("buildJsonOutput").value = "";
+  document.getElementById("submissionOutput").value = "";
+  document.getElementById("validationList").innerHTML = `<div class="status-item">No package generated yet.</div>`;
+  document.getElementById("statsBox").innerHTML = `
+    <div class="stat"><span>Collections</span><strong>—</strong></div>
+    <div class="stat"><span>Folders</span><strong>—</strong></div>
+    <div class="stat"><span>Sources</span><strong>—</strong></div>
+    <div class="stat"><span>AIO Catalogs</span><strong>—</strong></div>
+  `;
+}
+</script>
+
+</body>
+</html>
