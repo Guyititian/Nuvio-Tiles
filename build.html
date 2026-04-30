@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Build Details | Media Tiles</title>
+
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #121823;
+  --panel-2: #0f141d;
+  --text: #e8eef7;
+  --muted: rgba(232, 238, 247, 0.6);
+  --accent: #7aa2ff;
+  --border: rgba(255,255,255,0.06);
+  --shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+
+body {
+  margin:0;
+  background: radial-gradient(1200px 800px at 50% 20%, #141b2a 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Arial;
+}
+
+.wrapper {
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:40px;
+}
+
+.shell {
+  width:100%;
+  max-width:1180px;
+  background: linear-gradient(180deg, var(--panel), var(--panel-2));
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 42px;
+  box-shadow: var(--shadow);
+}
+
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  margin-bottom:28px;
+}
+
+.logo {
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:var(--text);
+  text-decoration:none;
+}
+
+.logo span {
+  color:var(--accent);
+}
+
+.nav {
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.nav a {
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13px;
+}
+
+.nav a:hover {
+  color:var(--text);
+}
+
+.back {
+  display:inline-block;
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13px;
+  margin-bottom:22px;
+}
+
+.back:hover {
+  color:var(--text);
+}
+
+h1 {
+  font-size:38px;
+  letter-spacing:1px;
+  margin:0 0 10px 0;
+  font-weight:700;
+}
+
+.subtitle {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+  margin:0 0 26px 0;
+  max-width:850px;
+}
+
+.divider {
+  height:1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  margin: 28px 0;
+}
+
+.stats {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap:12px;
+  margin-bottom:24px;
+}
+
+.stat {
+  background: rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+}
+
+.stat span {
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.stat strong {
+  color:var(--text);
+  font-size:22px;
+}
+
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 300px;
+  gap:22px;
+  align-items:start;
+}
+
+.panel {
+  background: rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.panel h2 {
+  margin:0 0 14px 0;
+  font-size:20px;
+}
+
+.panel p,
+.panel li {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.download {
+  position:sticky;
+  top:20px;
+}
+
+.button {
+  display:block;
+  padding:11px 13px;
+  border-radius:10px;
+  border:1px solid rgba(122,162,255,0.25);
+  background:rgba(122,162,255,0.12);
+  color:var(--text);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+  text-align:center;
+  margin-top:10px;
+}
+
+.button:hover {
+  background:rgba(122,162,255,0.18);
+}
+
+.module {
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  margin-bottom:16px;
+  background:rgba(0,0,0,0.14);
+}
+
+.module-header {
+  padding:14px;
+  border-bottom:1px solid var(--border);
+}
+
+.module-header h3 {
+  margin:0 0 5px 0;
+  font-size:17px;
+}
+
+.module-header p {
+  margin:0;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.folder-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:12px;
+  padding:14px;
+}
+
+.folder {
+  background:rgba(255,255,255,0.025);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+}
+
+.folder-img {
+  aspect-ratio:16/9;
+  background:#0b0f14;
+}
+
+.folder-img img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  background:#0b0f14;
+}
+
+.folder-body {
+  padding:10px;
+}
+
+.folder-body h4 {
+  margin:0 0 5px 0;
+  font-size:13px;
+}
+
+.folder-body p {
+  margin:0;
+  font-size:12px;
+  color:var(--muted);
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+th,
+td {
+  text-align:left;
+  border-bottom:1px solid var(--border);
+  padding:8px;
+  color:var(--muted);
+  vertical-align:top;
+}
+
+th {
+  color:var(--text);
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  word-break:break-word;
+}
+
+.empty,
+.error {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  color: var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+
+.error {
+  color:#ffb4b4;
+  border-color:rgba(255,100,100,0.25);
+}
+
+.footer {
+  margin-top: 36px;
+  text-align:center;
+  font-size:12px;
+  color: rgba(255,255,255,0.35);
+}
+
+@media (max-width: 850px) {
+  .layout {
+    grid-template-columns:1fr;
+  }
+
+  .download {
+    position:static;
+  }
+}
+
+@media (max-width: 700px) {
+  .wrapper {
+    padding:22px;
+  }
+
+  .shell {
+    padding:32px 22px;
+  }
+
+  .topbar {
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  h1 {
+    font-size:30px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+  <div class="shell">
+
+    <div class="topbar">
+      <a class="logo" href="./index.html"><span>Media</span> Tiles</a>
+      <div class="nav">
+        <a href="./index.html">Home</a>
+        <a href="./browse.html">Library</a>
+        <a href="./builds.html">Builds</a>
+      </div>
+    </div>
+
+    <a class="back" href="./builds.html">← Back to Builds</a>
+
+    <div id="app">
+      <div class="empty">Loading build...</div>
+    </div>
+
+    <div class="footer">
+      Media Tiles • Library • Builds • Tools
+    </div>
+
+  </div>
+</div>
+
+<script>
+const app = document.getElementById("app");
+const slug = new URLSearchParams(window.location.search).get("slug");
+
+function pathFor(file) {
+  return `./builds/${encodeURIComponent(slug)}/${file}`;
+}
+
+function text(value, fallback = "") {
+  return value === undefined || value === null || value === "" ? fallback : String(value);
+}
+
+function collectionsFrom(nuvio) {
+  return Array.isArray(nuvio) ? nuvio : [];
+}
+
+function foldersFrom(nuvio) {
+  return collectionsFrom(nuvio).flatMap(collection => Array.isArray(collection.folders) ? collection.folders : []);
+}
+
+function sourcesFrom(nuvio) {
+  return foldersFrom(nuvio).flatMap(folder => Array.isArray(folder.catalogSources) ? folder.catalogSources : []);
+}
+
+function statsFrom(nuvio, aio) {
+  const folders = foldersFrom(nuvio);
+
+  return {
+    collections: collectionsFrom(nuvio).length,
+    folders: folders.length,
+    sources: sourcesFrom(nuvio).length,
+    artwork: folders.filter(folder => folder.coverImageUrl).length,
+    focusGifs: folders.filter(folder => folder.focusGifEnabled && folder.focusGifUrl).length,
+    aioCatalogs: Array.isArray(aio.catalogs) ? aio.catalogs.length : 0
+  };
+}
+
+function summarizeCollection(collection) {
+  const folders = Array.isArray(collection.folders) ? collection.folders : [];
+  const sources = folders.flatMap(folder => Array.isArray(folder.catalogSources) ? folder.catalogSources : []);
+
+  return {
+    folders: folders.length,
+    sources: sources.length
+  };
+}
+
+function renderStats(stats) {
+  return `
+    <section class="stats">
+      <div class="stat"><span>Collections</span><strong>${stats.collections}</strong></div>
+      <div class="stat"><span>Folders</span><strong>${stats.folders}</strong></div>
+      <div class="stat"><span>Sources</span><strong>${stats.sources}</strong></div>
+      <div class="stat"><span>Artwork</span><strong>${stats.artwork}</strong></div>
+      <div class="stat"><span>Focus GIFs</span><strong>${stats.focusGifs}</strong></div>
+      <div class="stat"><span>AIO Catalogs</span><strong>${stats.aioCatalogs}</strong></div>
+    </section>
+  `;
+}
+
+function renderModules(nuvio) {
+  const collections = collectionsFrom(nuvio);
+
+  return `
+    <section class="panel">
+      <h2>Included Collections</h2>
+
+      ${collections.map(collection => {
+        const summary = summarizeCollection(collection);
+        const folders = Array.isArray(collection.folders) ? collection.folders : [];
+
+        return `
+          <article class="module">
+            <div class="module-header">
+              <h3>${text(collection.title, "Untitled Collection")}</h3>
+              <p>${summary.folders} folders • ${summary.sources} catalog sources</p>
+            </div>
+
+            <div class="folder-grid">
+              ${folders.map(folder => {
+                const sources = Array.isArray(folder.catalogSources) ? folder.catalogSources : [];
+
+                return `
+                  <article class="folder">
+                    <div class="folder-img">
+                      ${folder.coverImageUrl
+                        ? `<img src="${folder.coverImageUrl}" alt="${text(folder.title)}" loading="lazy" onerror="this.style.display='none'">`
+                        : ``
+                      }
+                    </div>
+                    <div class="folder-body">
+                      <h4>${text(folder.title, "Untitled Folder")}</h4>
+                      <p>${sources.length} catalog source${sources.length === 1 ? "" : "s"}</p>
+                    </div>
+                  </article>
+                `;
+              }).join("")}
+            </div>
+          </article>
+        `;
+      }).join("")}
+    </section>
+  `;
+}
+
+function catalogRows(nuvio, limit = 50) {
+  const rows = [];
+
+  for (const collection of collectionsFrom(nuvio)) {
+    const folders = Array.isArray(collection.folders) ? collection.folders : [];
+
+    for (const folder of folders) {
+      const sources = Array.isArray(folder.catalogSources) ? folder.catalogSources : [];
+
+      for (const source of sources) {
+        rows.push({
+          collection: collection.title || "",
+          folder: folder.title || "",
+          type: source.type || "",
+          addonId: source.addonId || "",
+          catalogId: source.catalogId || ""
+        });
+
+        if (rows.length >= limit) return rows;
+      }
+    }
+  }
+
+  return rows;
+}
+
+function renderCatalogPreview(nuvio) {
+  const rows = catalogRows(nuvio, 50);
+  const total = sourcesFrom(nuvio).length;
+
+  return `
+    <section class="panel">
+      <h2>Catalog Preview</h2>
+      <p>Showing the first ${rows.length} of ${total} catalog source references.</p>
+
+      <div style="overflow:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Collection</th>
+              <th>Folder</th>
+              <th>Type</th>
+              <th>Addon</th>
+              <th>Catalog ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map(row => `
+              <tr>
+                <td>${text(row.collection)}</td>
+                <td>${text(row.folder)}</td>
+                <td>${text(row.type)}</td>
+                <td class="mono">${text(row.addonId)}</td>
+                <td class="mono">${text(row.catalogId)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  `;
+}
+
+function renderNotes(build) {
+  const setup = Array.isArray(build.setupNotes) ? build.setupNotes : [];
+  const issues = Array.isArray(build.knownIssues) ? build.knownIssues : [];
+
+  return `
+    <section class="panel">
+      <h2>Setup Notes</h2>
+      ${setup.length ? `<ul>${setup.map(note => `<li>${text(note)}</li>`).join("")}</ul>` : `<p>No setup notes provided.</p>`}
+    </section>
+
+    <section class="panel">
+      <h2>Known Issues / Compatibility</h2>
+      ${issues.length ? `<ul>${issues.map(issue => `<li>${text(issue)}</li>`).join("")}</ul>` : `<p>No known issues listed.</p>`}
+    </section>
+  `;
+}
+
+function renderDownloads(build) {
+  const nuvioFile = build.nuvioJson || "nuvio-collections.json";
+  const aioFile = build.aioJson || "aiometadata-catalogs.json";
+
+  return `
+    <aside class="panel download">
+      <h2>Downloads</h2>
+      <p>Download the files for this build.</p>
+      <a class="button" href="${pathFor(nuvioFile)}" download>Download Nuvio JSON</a>
+      <a class="button" href="${pathFor(aioFile)}" download>Download aiometadata JSON</a>
+    </aside>
+  `;
+}
+
+async function load() {
+  if (!slug) {
+    app.innerHTML = `<div class="error">No build selected. Return to <a href="./builds.html">Builds</a>.</div>`;
+    return;
+  }
+
+  try {
+    const buildResponse = await fetch(pathFor("build.json"), { cache: "no-store" });
+    if (!buildResponse.ok) throw new Error("Could not load build.json");
+    const build = await buildResponse.json();
+
+    const nuvioResponse = await fetch(pathFor(build.nuvioJson || "nuvio-collections.json"), { cache: "no-store" });
+    if (!nuvioResponse.ok) throw new Error("Could not load Nuvio JSON");
+    const nuvio = await nuvioResponse.json();
+
+    let aio = {};
+    const aioResponse = await fetch(pathFor(build.aioJson || "aiometadata-catalogs.json"), { cache: "no-store" });
+    if (aioResponse.ok) aio = await aioResponse.json();
+
+    const stats = statsFrom(nuvio, aio);
+    document.title = `${text(build.title, "Build Details")} | Media Tiles`;
+
+    app.innerHTML = `
+      <h1>${text(build.title, "Untitled Build")}</h1>
+      <p class="subtitle">${text(build.description, "No description provided.")}</p>
+
+      ${renderStats(stats)}
+
+      <div class="divider"></div>
+
+      <div class="layout">
+        <div>
+          ${renderModules(nuvio)}
+          ${renderCatalogPreview(nuvio)}
+          ${renderNotes(build)}
+        </div>
+
+        ${renderDownloads(build)}
+      </div>
+    `;
+  } catch (error) {
+    console.error(error);
+    app.innerHTML = `
+      <div class="error">
+        Could not load this build. Check that the folder exists at <strong>builds/${slug}/</strong> and contains <strong>build.json</strong>, <strong>nuvio-collections.json</strong>, and <strong>aiometadata-catalogs.json</strong>.
+      </div>
+    `;
+  }
+}
+
+load();
+</script>
+
+</body>
+</html>
