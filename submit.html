@@ -401,6 +401,17 @@ select option {
   color:var(--good);
 }
 
+.mobile-note {
+  margin-top:10px;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid rgba(255,211,122,0.25);
+  background:rgba(255,211,122,0.055);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
 .hidden {
   display:none;
 }
@@ -685,12 +696,16 @@ Some artwork may be hosted externally and depends on the original host remaining
           <span class="step-label">Step 5</span>
           <h2>Ready to Submit</h2>
           <div id="readyBox" class="notice">
-            Generate a submission package first. Once validation passes, this area will show the final review steps and a prefilled GitHub issue button.
+            Complete the checklist and generate a submission package first. Once validation passes, this area will show the final review steps and a prefilled issue button.
           </div>
 
           <div class="actions">
             <button id="downloadBuildButton" class="button disabled" type="button" onclick="downloadBuildJson()">Download build.json</button>
-            <a id="githubIssueButton" class="button disabled" href="#" target="_blank" rel="noopener noreferrer">Open GitHub Issue</a>
+            <a id="githubIssueButton" class="button disabled" href="#" target="_blank" rel="noopener noreferrer">Open Review Issue</a>
+          </div>
+
+          <div class="mobile-note">
+            On mobile, GitHub may open the app. If you do not see a way to attach files, open the issue link in Safari/Chrome or use a desktop browser.
           </div>
         </section>
 
@@ -720,9 +735,14 @@ Some artwork may be hosted externally and depends on the original host remaining
       <aside class="side-column">
 
         <section class="panel">
-          <h2>Validation</h2>
+          <h2>Submission Checklist</h2>
+          <div id="liveChecklist" class="status-list"></div>
+        </section>
+
+        <section class="panel">
+          <h2>Validation Details</h2>
           <div id="validationList" class="status-list">
-            <div class="status-item">No package generated yet.</div>
+            <div class="status-item">Generate a package to see detailed file validation.</div>
           </div>
         </section>
 
@@ -749,11 +769,11 @@ Some artwork may be hosted externally and depends on the original host remaining
         <section class="panel">
           <h2>How Review Works</h2>
           <ul class="checklist">
+            <li>Complete the checklist.</li>
             <li>Generate the submission package.</li>
             <li>Download the generated build.json.</li>
-            <li>Open the prefilled GitHub issue.</li>
+            <li>Open the prefilled review issue.</li>
             <li>Attach build.json and both JSON exports.</li>
-            <li>Submit for review.</li>
           </ul>
         </section>
 
@@ -783,6 +803,12 @@ document.getElementById("brand").onclick = () => {
 document.getElementById("language").addEventListener("change", () => {
   const language = document.getElementById("language").value;
   document.getElementById("otherLanguageWrap").classList.toggle("hidden", language !== "Other");
+  updateLiveChecklist();
+});
+
+["title", "creator", "description", "category", "otherLanguage", "nuvioFile", "aioFile"].forEach(id => {
+  document.getElementById(id).addEventListener("input", updateLiveChecklist);
+  document.getElementById(id).addEventListener("change", updateLiveChecklist);
 });
 
 function text(value, fallback = "") {
@@ -828,6 +854,61 @@ function getSelectedLanguage() {
     language,
     languageCode: code || "unknown"
   };
+}
+
+function hasFile(inputId) {
+  const input = document.getElementById(inputId);
+  return Boolean(input.files && input.files[0]);
+}
+
+function updateLiveChecklist() {
+  const language = document.getElementById("language").value;
+  const otherLanguageRequired = language === "Other";
+
+  const items = [
+    {
+      label: "Build title",
+      complete: Boolean(text(document.getElementById("title").value)),
+      help: "Give the build a clear name."
+    },
+    {
+      label: "Creator name",
+      complete: Boolean(text(document.getElementById("creator").value)),
+      help: "Add the creator or username."
+    },
+    {
+      label: "Description",
+      complete: Boolean(text(document.getElementById("description").value)),
+      help: "Explain what the build includes."
+    },
+    {
+      label: "Category",
+      complete: Boolean(text(document.getElementById("category").value)),
+      help: "Choose the closest build type."
+    },
+    {
+      label: "Language",
+      complete: Boolean(text(language)) && (!otherLanguageRequired || Boolean(text(document.getElementById("otherLanguage").value))),
+      help: "Select the language used in titles and notes."
+    },
+    {
+      label: "Nuvio JSON",
+      complete: hasFile("nuvioFile"),
+      help: "Choose the exported Nuvio collections JSON."
+    },
+    {
+      label: "aiometadata JSON",
+      complete: hasFile("aioFile"),
+      help: "Choose the aiometadata catalog export JSON."
+    }
+  ];
+
+  document.getElementById("liveChecklist").innerHTML = items.map(item => `
+    <div class="status-item ${item.complete ? "status-good" : "status-bad"}">
+      <strong>${item.complete ? "✓" : "•"} ${item.label}</strong><br>
+      ${item.complete ? "Complete." : item.help}
+    </div>
+  `).join("");
 }
 
 function readJsonFile(inputId) {
@@ -1097,7 +1178,10 @@ Important:
 Please attach the following three files to this issue before submitting:
 1. build.json
 2. nuvio-collections.json
-3. aiometadata-catalogs.json`;
+3. aiometadata-catalogs.json
+
+Mobile note:
+If the GitHub app does not show file attachment options, open this issue in Safari/Chrome or use a desktop browser.`;
 
   return `${GITHUB_ISSUE_URL}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
 }
@@ -1113,7 +1197,7 @@ function updateReadyPanel(build, issueUrl) {
   readyBox.innerHTML = `
     <strong>Submission package ready.</strong><br><br>
     1. Download the generated <strong>build.json</strong> file.<br>
-    2. Click <strong>Open GitHub Issue</strong> to open a prefilled review request.<br>
+    2. Click <strong>Open Review Issue</strong> to open a prefilled GitHub issue.<br>
     3. Attach these three files to the issue before submitting:<br>
     &nbsp;&nbsp;• build.json<br>
     &nbsp;&nbsp;• nuvio-collections.json<br>
@@ -1132,7 +1216,7 @@ function resetReadyPanel() {
   const downloadButton = document.getElementById("downloadBuildButton");
 
   readyBox.className = "notice";
-  readyBox.innerHTML = "Generate a submission package first. Once validation passes, this area will show the final review steps and a prefilled GitHub issue button.";
+  readyBox.innerHTML = "Complete the checklist and generate a submission package first. Once validation passes, this area will show the final review steps and a prefilled issue button.";
 
   issueButton.href = "#";
   issueButton.classList.add("disabled");
@@ -1141,6 +1225,8 @@ function resetReadyPanel() {
 }
 
 async function generatePackage() {
+  updateLiveChecklist();
+
   const validationMessages = requiredFieldMessages();
 
   let nuvioResult = null;
@@ -1259,7 +1345,7 @@ function resetOutputs() {
 
   document.getElementById("buildJsonOutput").value = "";
   document.getElementById("submissionOutput").value = "";
-  document.getElementById("validationList").innerHTML = `<div class="status-item">No package generated yet.</div>`;
+  document.getElementById("validationList").innerHTML = `<div class="status-item">Generate a package to see detailed file validation.</div>`;
   document.getElementById("statsBox").innerHTML = `
     <div class="stat"><span>Collections</span><strong>—</strong></div>
     <div class="stat"><span>Folders</span><strong>—</strong></div>
@@ -1268,7 +1354,10 @@ function resetOutputs() {
   `;
 
   resetReadyPanel();
+  updateLiveChecklist();
 }
+
+updateLiveChecklist();
 </script>
 
 </body>
