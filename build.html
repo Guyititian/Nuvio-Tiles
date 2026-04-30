@@ -434,10 +434,10 @@ th {
       <div class="brand" id="brand"><span>Media</span> Tiles</div>
 
       <div class="ecosystem-nav">
-  <a class="nav-btn" href="./browse.html">Library</a>
-  <a class="nav-btn active" href="./builds.html">Builds</a>
-  <a class="nav-btn" href="./submit.html">Submit</a>
-</div>
+        <a class="nav-btn" href="./browse.html">Library</a>
+        <a class="nav-btn active" href="./builds.html">Builds</a>
+        <a class="nav-btn" href="./submit.html">Submit</a>
+      </div>
 
     </div>
 
@@ -670,8 +670,8 @@ function renderCompatibility(build) {
         </div>
 
         <div class="compat-item">
-          <span class="compat-label">Pack Type</span>
-          <span class="compat-value">${text(build.category, build.packageType || "Build Pack")}</span>
+          <span class="compat-label">Category</span>
+          <span class="compat-value">${text(build.category, "Build Pack")}</span>
         </div>
 
         <div class="compat-item">
@@ -686,7 +686,7 @@ function renderCompatibility(build) {
 
         <div class="compat-item">
           <span class="compat-label">Import Style</span>
-          <span class="compat-value">${text(build.importStyle, "Nuvio Collections JSON + AIOMetadata Catalogs JSON")}</span>
+          <span class="compat-value">${text(build.importStyle, "Nuvio JSON + AIOMetadata JSON")}</span>
         </div>
       </div>
     </section>
