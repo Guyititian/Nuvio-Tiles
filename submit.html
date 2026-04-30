@@ -485,10 +485,10 @@ select option {
       <div class="brand" id="brand"><span>Media</span> Tiles</div>
 
       <div class="ecosystem-nav">
-  <a class="nav-btn" href="./browse.html">Library</a>
-  <a class="nav-btn" href="./builds.html">Builds</a>
-  <a class="nav-btn active" href="./submit.html">Submit</a>
-</div>
+        <a class="nav-btn" href="./browse.html">Library</a>
+        <a class="nav-btn" href="./builds.html">Builds</a>
+        <a class="nav-btn active" href="./submit.html">Submit</a>
+      </div>
 
     </div>
 
@@ -574,29 +574,6 @@ select option {
             <div class="field hidden" id="otherLanguageWrap">
               <label for="otherLanguage">Other Language</label>
               <input id="otherLanguage" placeholder="Enter language">
-            </div>
-
-            <div class="field">
-              <label for="packageType">Pack Type</label>
-              <select id="packageType">
-                <option>Nuvio Collection Pack</option>
-                <option>Nuvio Full Build</option>
-                <option>Nuvio Artwork Pack</option>
-                <option>Other</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="buildType">Build Type</label>
-              <select id="buildType">
-                <option>Community Build</option>
-                <option>Full Build</option>
-                <option>Multi-Collection Pack</option>
-                <option>Single Collection Pack</option>
-                <option>Genre Pack</option>
-                <option>Franchise Pack</option>
-                <option>Other</option>
-              </select>
             </div>
 
             <div class="field full">
@@ -1071,8 +1048,6 @@ function buildJsonObject() {
     status: "Community",
     platforms: ["Nuvio"],
     catalogLayer: "AIOMetadata",
-    packageType: text(document.getElementById("packageType").value, "Nuvio Collection Pack"),
-    buildType: text(document.getElementById("buildType").value, "Community Build"),
     category,
     language: languageInfo.language,
     languageCode: languageInfo.languageCode,
@@ -1132,8 +1107,6 @@ Status: ${build.status}
 Platform: ${build.platforms.join(", ")}
 Catalog Layer: ${build.catalogLayer}
 Category: ${build.category}
-Package Type: ${build.packageType}
-Build Type: ${build.buildType}
 Language: ${build.language} (${build.languageCode})
 
 Description:
