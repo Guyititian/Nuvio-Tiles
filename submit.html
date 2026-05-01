@@ -494,13 +494,13 @@ select option {
 
     <div class="section-title">
       <h1><span>Media</span> Submissions</h1>
-      <p>Prepare a Nuvio-ready build package for review without uploading anything automatically.</p>
+      <p>Prepare a Nuvio-ready build submission package for GitHub review.</p>
     </div>
 
     <div class="divider"></div>
 
     <div class="notice">
-      This page checks your files locally in your browser and creates a clean review package. It will not publish anything automatically.
+      This page checks your files locally in your browser, generates a build.json file, and prepares a GitHub review issue. Nothing is published until the submission is reviewed.
     </div>
 
   </div>
@@ -644,7 +644,7 @@ Some artwork may be hosted externally and depends on the original host remaining
         <section class="panel">
           <span class="step-label">Step 4</span>
           <h2>Add Required JSON Files</h2>
-          <p class="panel-intro">Choose the two exported JSON files from your device. They are checked locally and are not uploaded by this page.</p>
+          <p class="panel-intro">Choose the two exported JSON files from your device. They are checked locally before you create the review package.</p>
 
           <div class="file-row">
 
@@ -670,9 +670,9 @@ Some artwork may be hosted externally and depends on the original host remaining
 
         <section class="panel" id="readyPanel">
           <span class="step-label">Step 5</span>
-          <h2>Ready to Submit</h2>
+          <h2>Download and Submit</h2>
           <div id="readyBox" class="notice">
-            Complete the checklist and generate a submission package first. Once validation passes, this area will show the final review steps and a prefilled issue button.
+            Complete the checklist and generate a submission package first. Once validation passes, download the generated build.json file, then open the review issue and attach all three required files.
           </div>
 
           <div class="actions">
@@ -681,18 +681,17 @@ Some artwork may be hosted externally and depends on the original host remaining
           </div>
 
           <div class="mobile-note">
-            On mobile, GitHub may open the app. If you do not see a way to attach files, open the issue link in Safari/Chrome or use a desktop browser.
+            On mobile, GitHub may hide file attachments near the bottom of the issue editor. Look for Add Files, or open the issue link in Safari/Chrome or on a desktop browser.
           </div>
         </section>
 
         <section class="panel" id="outputPanel">
-          <h2>Submission Package</h2>
-          <p class="panel-intro">This is the generated metadata file that should be included with the two JSON exports.</p>
+          <h2>Submission Package Preview</h2>
+          <p class="panel-intro">This preview shows the metadata that will be saved as build.json. Use the download button in Step 5 when the package is ready.</p>
           <textarea id="buildJsonOutput" class="output" readonly placeholder="Generated build.json will appear here."></textarea>
 
           <div class="actions">
-            <button class="button" type="button" onclick="copyOutput('buildJsonOutput')">Copy build.json</button>
-            <button class="button secondary" type="button" onclick="downloadBuildJson()">Download build.json</button>
+            <button class="button secondary" type="button" onclick="copyOutput('buildJsonOutput')">Copy build.json</button>
           </div>
         </section>
 
@@ -1153,7 +1152,7 @@ Please attach the following three files to this issue before submitting:
 3. aiometadata-catalogs.json
 
 Mobile note:
-If the GitHub app does not show file attachment options, open this issue in Safari/Chrome or use a desktop browser.`;
+If the GitHub app does not show file attachment options, look near the bottom of the issue editor for Add Files, open this issue in Safari/Chrome, or use a desktop browser.`;
 
   return `${GITHUB_ISSUE_URL}?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}`;
 }
@@ -1188,7 +1187,7 @@ function resetReadyPanel() {
   const downloadButton = document.getElementById("downloadBuildButton");
 
   readyBox.className = "notice";
-  readyBox.innerHTML = "Complete the checklist and generate a submission package first. Once validation passes, this area will show the final review steps and a prefilled issue button.";
+  readyBox.innerHTML = "Complete the checklist and generate a submission package first. Once validation passes, download the generated build.json file, then open the review issue and attach all three required files.";
 
   issueButton.href = "#";
   issueButton.classList.add("disabled");
